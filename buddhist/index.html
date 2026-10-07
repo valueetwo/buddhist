@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buddhist Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="top-decor left"></div>
+  <div class="top-decor right"></div>
+  <button id="mobileBtn" class="mobile-menu">☰</button>
+  <div class="logo-wrap">
+    <img class="brand-logo" src="assets/buddhist-logo.webp" alt="Buddhist">
+  </div>
+  <label class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input id="searchInput" type="text" placeholder="Cari mantra, judul, atau topik...">
+  </label>
+  <div class="header-actions">
+    <button class="circle-btn notif"><span class="dot"></span>🔔</button>
+    <button id="authBtn" class="profile-pill">
+      <span class="avatar">👨🏻</span>
+      <span class="profile-text"><strong id="profileName">Admin</strong><small id="profileRole">Administrator</small></span>
+      <span class="caret">⌄</span>
+    </button>
+  </div>
+</header>
+
+<div class="page-shell">
+  <aside id="sidebar" class="sidebar panel">
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-page="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+      <button class="nav-item" data-page="mantra"><span class="nav-icon">▶</span><span>Tutorial Video</span></button>
+      <button class="nav-item" data-page="faq"><span class="nav-icon">?</span><span>FAQ</span></button>
+      <button class="nav-item" data-page="sop"><span class="nav-icon">▤</span><span>SOP</span></button>
+      <button class="nav-item" data-page="kategori"><span class="nav-icon">▦</span><span>Kategori</span><span class="nav-arrow">›</span></button>
+      <button class="nav-item" data-page="favorit"><span class="nav-icon">♥</span><span>Favorit</span></button>
+      <button class="nav-item" data-page="riwayat"><span class="nav-icon">◷</span><span>Riwayat</span></button>
+      <button class="nav-item" data-page="playlist"><span class="nav-icon">▣</span><span>Playlist Saya</span></button>
+    </nav>
+    <div class="earth-card">
+      <img src="assets/earth-god-sidebar.webp" alt="Dewa Bumi">
+      <div class="earth-badge">
+        <b>Dewa Bumi</b>
+        <span>Memberkati Setiap Langkah<br>Kebaikan Anda</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+    <section id="dashboard" class="page-view active">
+      <section class="hero panel">
+        <div class="hero-scene"></div>
+        <div class="hero-art">
+          <img src="assets/guanyin-trio.png" alt="Dewi Kwan Im">
+        </div>
+        <div class="hero-title-block">
+          <h1 id="heroTitle">淨口業真言</h1>
+          <p id="heroSub">Buddhist Dashboard</p>
+        </div>
+        <button id="heroPlay" class="hero-play" aria-label="play">▶</button>
+        <audio id="audio" preload="metadata"></audio>
+        <div class="hero-controls">
+          <button id="miniPlay" class="control-ghost">▶</button>
+          <span id="currentTime">00:00</span>
+          <div id="track" class="track"><i id="progress"></i></div>
+          <span id="totalTime">12:34</span>
+          <div class="controls-right">
+            <button id="volumeBtn" class="control-ghost">🔊</button>
+            <button class="control-ghost">⚙</button>
+            <button class="control-ghost">⤢</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="popular panelless">
+        <div class="section-head">
+          <h2>🔥 Video Populer</h2>
+          <button id="seeAllBtn" class="link-btn">Lihat Semua →</button>
+        </div>
+        <div id="carousel" class="carousel"></div>
+      </section>
+    </section>
+
+    <section id="mantra" class="page-view page-panel">
+      <div class="section-head">
+        <div>
+          <h2>Semua Bacaan</h2>
+          <p>Pilih mantra untuk melihat detail dan memutar audio.</p>
+        </div>
+        <button id="addMantraBtn" class="gold-btn hidden">＋ Tambahkan mantra</button>
+      </div>
+      <div id="mantraGrid" class="mantra-grid"></div>
+    </section>
+
+    <section id="faq" class="page-view page-panel">
+      <div class="section-head"><h2>FAQ</h2></div>
+      <div id="faqList" class="doc-list"></div>
+    </section>
+
+    <section id="sop" class="page-view page-panel">
+      <div class="section-head"><h2>SOP</h2></div>
+      <div id="sopList" class="doc-list"></div>
+    </section>
+
+    <section id="kategori" class="page-view page-panel">
+      <div class="section-head"><h2>Kategori</h2></div>
+      <div id="categoryList" class="category-grid"></div>
+    </section>
+
+    <section id="favorit" class="page-view page-panel">
+      <div class="section-head"><h2>Favorit</h2></div>
+      <div id="favoriteGrid" class="mantra-grid"></div>
+    </section>
+
+    <section id="riwayat" class="page-view page-panel">
+      <div class="section-head"><h2>Riwayat</h2></div>
+      <div id="historyGrid" class="mantra-grid"></div>
+    </section>
+
+    <section id="playlist" class="page-view page-panel">
+      <div class="section-head"><h2>Playlist Saya</h2></div>
+      <div id="playlistGrid" class="mantra-grid"></div>
+    </section>
+  </main>
+
+  <aside class="info panel">
+    <h2 class="info-head"><span class="lotus">🪷</span> Informasi Bacaan</h2>
+    <div class="info-main">
+      <img id="infoThumb" class="info-thumb" src="assets/thumb-1.png" alt="thumb">
+      <div class="info-title-wrap">
+        <h3 id="infoTitle">淨口業真言</h3>
+        <p id="infoPinyin">Jing Kou Ye Zhen Yan</p>
+      </div>
+      <button id="favBtn" class="fav-heart">♡</button>
+    </div>
+    <p id="infoDesc" class="desc"></p>
+    <div class="meta-list">
+      <div class="meta-row"><span>◷ &nbsp;Durasi</span><b id="infoDuration">12:34</b></div>
+      <div class="meta-row"><span>▣ &nbsp;Kategori</span><b id="infoCategory">Mantra Harian</b></div>
+      <div class="meta-row"><span>🗓 &nbsp;Tanggal Upload</span><b>10 Jan 2025</b></div>
+      <div class="meta-row"><span>👤 &nbsp;Oleh</span><b>Tim Buddhist</b></div>
+    </div>
+    <h3 class="subhead">📋 Materi yang Dibahas</h3>
+    <div id="materials" class="materials-list"></div>
+  </aside>
+</div>
+
+<div class="pager-bubble">›</div>
+
+<div id="materialModal" class="modal">
+  <div class="modal-card wide">
+    <button class="close-btn" data-close>×</button>
+    <span id="modalCategory" class="pill">Mantra</span>
+    <h2 id="modalTitle"></h2>
+    <pre id="modalBody" class="reading-block"></pre>
+  </div>
+</div>
+
+<div id="authModal" class="modal">
+  <div class="modal-card">
+    <button class="close-btn" data-close>×</button>
+    <h2>Login Admin</h2>
+    <p>Masuk menggunakan akun Supabase yang kamu pakai untuk panel Buddhist.</p>
+    <input id="emailInput" type="email" placeholder="Email">
+    <input id="passwordInput" type="password" placeholder="Password">
+    <button id="loginBtn" class="gold-btn">Login</button>
+    <div id="authStatus" class="status-text"></div>
+  </div>
+</div>
+
+<div id="editorModal" class="modal">
+  <div class="modal-card wide">
+    <button class="close-btn" data-close>×</button>
+    <h2 id="editorTitle">Tambah Mantra</h2>
+    <div class="editor-grid">
+      <input id="editTitle" placeholder="Judul Hanzi">
+      <input id="editPinyin" placeholder="Pinyin">
+      <input id="editCategory" placeholder="Kategori">
+      <input id="editDuration" placeholder="Durasi 00:00">
+      <input id="editAudio" placeholder="URL audio / video opsional">
+      <textarea id="editDescription" placeholder="Deskripsi singkat"></textarea>
+    </div>
+    <button id="saveBtn" class="gold-btn">Simpan</button>
+    <div id="editorStatus" class="status-text"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
