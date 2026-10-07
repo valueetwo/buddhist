@@ -996,7 +996,7 @@ async function initSupabase(){
       if(s)await loadRemote();
     });
     if(data.session)await loadRemote();
-    if($("syncBadge"))$("syncBadge").textContent="Online";
+    if($("syncBadge"))$("syncBadge").textContent="Supabase Online";
   }catch(e){console.error(e);document.body.classList.add("auth-required");openAuth("Supabase gagal tersambung.");}
 }
 
