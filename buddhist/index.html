@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buddhist Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="mobile-menu-btn" id="mobileMenuBtn" type="button">☰</button>
+  <img src="assets/buddhist-logo.webp" class="brand-logo" alt="Buddhist">
+  <div class="search-wrap">
+    <span>⌕</span>
+    <input id="globalSearch" class="search" placeholder="Cari mantra, FAQ, SOP, atau materi...">
+    <div id="searchResults" class="search-results"></div>
+  </div>
+  <div class="user">
+    <button id="adminAuthBtn" class="admin-auth-btn" type="button">🔐 Admin Login</button>
+    <span id="adminUserLabel"></span>
+  </div>
+</header>
+
+<div id="mobileMenuBackdrop" class="mobile-menu-backdrop"></div>
+
+<div class="layout">
+  <aside id="sidebar" class="sidebar">
+    <div class="nav">
+      <button class="active" data-page="dashboard">⌂ &nbsp; Dashboard</button>
+      <button data-page="tutorial">▣ &nbsp; Tutorial Video</button>
+      <button data-page="faq">ⓘ &nbsp; FAQ</button>
+      <button data-page="sop">▤ &nbsp; SOP</button>
+      <button data-page="kategori">□ &nbsp; Kategori</button>
+      <button data-page="favorit">♥ &nbsp; Favorit</button>
+      <button data-page="riwayat">◷ &nbsp; Riwayat</button>
+      <button data-page="playlist">☷ &nbsp; Playlist Saya</button>
+      <button class="owner-only" data-page="pengguna">⚙ &nbsp; Account</button>
+      <button class="owner-only" data-page="activity-log">◷ &nbsp; Log Aktivitas</button>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="earth-wrap">
+        <img src="assets/earth-god-sidebar.webp" class="earth-god" alt="Dewa Bumi">
+        <div class="earth-badge"><b>Dewa Bumi</b><span>Memberkati Setiap Langkah<br>Kebaikan Anda</span></div>
+      </div>
+      <div class="help"><strong>🪷 Pusat Mantra & Dokumentasi</strong>Temukan mantra, video, FAQ, SOP, dan materi dengan mudah.</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section id="dashboard" class="page-view active">
+      <section class="player" id="mainPlayer">
+        <div class="hero-bg"></div>
+        <div class="hero-art"><img src="assets/guanyin-trio.png" alt="Kwan Im"></div>
+        <div class="hero-copy">
+          <h1 id="heroTitle">淨口業真言</h1>
+          <p>Buddhist Dashboard</p>
+          <button id="heroBigPlay" class="hero-big-play">▶</button>
+        </div>
+        <audio id="nativeAudio" preload="metadata"></audio>
+        <div class="controls">
+          <button class="play" id="playBtn">▶</button>
+          <span id="playerTime">0:00 / 12:34</span>
+          <div class="track" id="playerTrack"><span id="playerProgress"></span></div>
+          <div class="player-actions">
+            <button class="control-icon" id="volumeBtn">🔊</button>
+            <button class="control-icon" id="settingsBtn">⚙</button>
+            <button class="control-icon" id="fullscreenBtn">⛶</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="related">
+        <div class="related-head"><h3>🔥 Video Populer</h3><button id="seeAllVideos" class="link-btn">Lihat Semua →</button></div>
+        <div id="scroller" class="scroller"></div>
+      </section>
+    </section>
+
+    <section id="tutorial" class="page-view simple-page">
+      <div class="page-head">
+        <div><h2>Tutorial Video / Mantra</h2><p class="lead">Semua bacaan dan video Buddhist.</p></div>
+        <button id="openAddVideo" class="admin-add admin-only">＋ Tambah Video</button>
+      </div>
+      <div id="tutorialGrid" class="content-grid"></div>
+    </section>
+
+    <section id="faq" class="page-view simple-page">
+      <div class="admin-split">
+        <section><h2>FAQ</h2><p class="lead">Pertanyaan yang sering ditanyakan.</p><div id="faqList" class="doc-list"></div></section>
+        <aside class="admin-side"><div class="admin-card"><h3>Tambah FAQ</h3><button id="openFaqForm" class="admin-add admin-only">＋ Tambah FAQ</button></div></aside>
+      </div>
+    </section>
+
+    <section id="sop" class="page-view simple-page">
+      <div class="admin-split">
+        <section><h2>SOP</h2><p class="lead">Panduan dan prosedur Buddhist.</p><div id="sopList" class="doc-list"></div></section>
+        <aside class="admin-side"><div class="admin-card"><h3>Tambah SOP</h3><button id="openSopForm" class="admin-add admin-only">＋ Tambah SOP</button></div></aside>
+      </div>
+    </section>
+
+    <section id="kategori" class="page-view simple-page"><h2>Kategori</h2><div id="categoryGrid" class="content-grid"></div></section>
+    <section id="favorit" class="page-view simple-page"><h2>Favorit</h2><div id="favoriteGrid" class="content-grid"></div></section>
+    <section id="riwayat" class="page-view simple-page"><h2>Riwayat</h2><div id="historyGrid" class="content-grid"></div></section>
+    <section id="playlist" class="page-view simple-page"><h2>Playlist Saya</h2><div id="playlistGrid" class="content-grid"></div></section>
+
+    <section id="materi-detail" class="page-view simple-page">
+      <div class="content-page-head"><button id="materialBack" class="content-back">←</button><div><h2>Materi Video</h2><p class="lead" id="materialVideoTitle"></p></div></div>
+      <article class="article-card">
+        <span id="materialCategory" class="preview-category">Materi</span>
+        <h1 id="materialTitle"></h1>
+        <p id="materialSummary" class="article-summary"></p>
+        <div class="article-body" id="materialBody"></div>
+        <div id="materialNav" class="article-material-nav"></div>
+      </article>
+    </section>
+
+    <section id="pengguna" class="page-view simple-page owner-only">
+      <h2>Account</h2><p class="lead">Kelola izin viewer/admin.</p><div id="userList" class="doc-list"></div>
+    </section>
+
+    <section id="activity-log" class="page-view simple-page owner-only">
+      <h2>Log Aktivitas</h2><p class="lead">Aktivitas admin dan owner.</p><div id="activityLogList" class="doc-list"></div>
+    </section>
+  </main>
+
+  <aside class="info">
+    <h2>🪷 Informasi Bacaan</h2>
+    <div class="info-title-row">
+      <img id="infoThumb" src="assets/thumb-1.png" alt="">
+      <div><h3 id="infoTitle">淨口業真言</h3><p id="infoPinyin">Jing Kou Ye Zhen Yan</p></div>
+      <button id="infoFavBtn" class="heart">♡</button>
+    </div>
+    <p class="desc" id="infoDesc"></p>
+    <div class="meta">
+      <div class="label">◷ Durasi</div><div id="duration">12:34</div>
+      <div class="label">▣ Kategori</div><div><span id="category" class="tag">Mantra Harian</span></div>
+      <div class="label">🗓 Tanggal Upload</div><div>10 Jan 2025</div>
+      <div class="label">👤 Oleh</div><div>Tim Buddhist</div>
+    </div>
+    <h3>📋 Materi yang Dibahas</h3>
+    <div id="activeMaterialList" class="topics"></div>
+    <button id="openMaterialDetail" class="material-more">Selengkapnya</button>
+    <button id="addMaterialBtn" class="download admin-only">＋ Tambahkan materi</button>
+  </aside>
+</div>
+
+<footer>© 2026 <b>Buddhist</b> Dashboard.</footer>
+
+<div id="authModal" class="modal">
+  <div class="modal-card">
+    <button class="modal-close" data-close>×</button>
+    <h3>Masuk ke Buddhist</h3>
+    <div class="auth-tabs"><button id="loginTab" class="active">Login</button><button id="registerTab">Daftar</button></div>
+    <input id="authEmail" type="email" placeholder="Email">
+    <input id="authPassword" type="password" placeholder="Password">
+    <div id="authStatus" class="status"></div>
+    <button id="authSubmit" class="red-btn">Login</button>
+  </div>
+</div>
+
+<div id="videoModal" class="modal">
+  <div class="modal-card wide">
+    <button class="modal-close" data-close>×</button><h3 id="videoFormTitle">Tambah Video</h3>
+    <div class="form-grid">
+      <input id="videoTitle" placeholder="Judul Hanzi">
+      <input id="videoPinyin" placeholder="Pinyin">
+      <input id="videoCategory" placeholder="Kategori">
+      <input id="videoDuration" placeholder="Durasi 12:34">
+      <textarea id="videoDescription" placeholder="Deskripsi"></textarea>
+      <input id="videoUrl" placeholder="URL audio/video">
+      <input id="videoThumbnail" placeholder="URL thumbnail (opsional)">
+      <input id="videoThumbFile" type="file" accept="image/*">
+    </div>
+    <div id="videoStatus" class="status"></div><button id="saveVideo" class="red-btn">Simpan</button>
+  </div>
+</div>
+
+<div id="materialModal" class="modal">
+  <div class="modal-card wide">
+    <button class="modal-close" data-close>×</button><h3 id="materialFormTitle">Tambah Materi</h3>
+    <select id="materialParent"></select>
+    <input id="materialFormTitleInput" placeholder="Judul materi">
+    <input id="materialFormCategory" placeholder="Kategori">
+    <textarea id="materialFormSummary" placeholder="Ringkasan / peringatan"></textarea>
+    <textarea id="materialFormContent" class="material-textarea" placeholder="Isi materi"></textarea>
+    <input id="materialAttachment" type="file">
+    <div id="materialStatus" class="status"></div><button id="saveMaterial" class="red-btn">Simpan Materi</button>
+  </div>
+</div>
+
+<div id="faqModal" class="modal">
+  <div class="modal-card">
+    <button class="modal-close" data-close>×</button><h3 id="faqFormTitle">Tambah FAQ</h3>
+    <input id="faqQuestion" placeholder="Pertanyaan">
+    <textarea id="faqAnswer" placeholder="Jawaban"></textarea>
+    <textarea id="faqImportant" placeholder="Catatan penting"></textarea>
+    <button id="saveFaq" class="red-btn">Simpan</button>
+  </div>
+</div>
+
+<div id="sopModal" class="modal">
+  <div class="modal-card">
+    <button class="modal-close" data-close>×</button><h3 id="sopFormTitle">Tambah SOP</h3>
+    <input id="sopTitle" placeholder="Judul SOP">
+    <textarea id="sopContent" placeholder="Isi SOP"></textarea>
+    <button id="saveSop" class="red-btn">Simpan</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
