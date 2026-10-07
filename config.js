@@ -1,6 +1,7 @@
 window.BUDDHIST_CONFIG = {
-  supabaseUrl: "https://oxolniqpmcqdetnkcfom.supabase.co",
-  supabaseAnonKey: "sb_publishable_nkvL6KgoFx56T-QMsHRH1Q_-7-BYL1Z",
+  supabaseUrl: "https://chworywxohcxvuhgwhpj.supabase.co",
+  supabaseAnonKey: "sb_publishable_hxZrqoez8rJpfHuIO3lWoQ_ENCopU4d",
+  authRedirectUrl: "https://valueetwo.github.io/buddhist/",
   authProviders: {
     instagram: "custom:instagram",
     facebook: "facebook",

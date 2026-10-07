@@ -984,6 +984,10 @@ if(search&&results){
     if(!e.target.closest(".search-wrap"))results.classList.remove("show");
   });
 }
+
+function authRedirectUrl(){
+  return window.BUDDHIST_CONFIG?.authRedirectUrl || (location.origin + location.pathname);
+}
 function supabaseReady(){const c=window.BUDDHIST_CONFIG||{};return !!(window.supabase&&c.supabaseUrl&&c.supabaseAnonKey&&!c.supabaseUrl.includes("YOUR_")&&!c.supabaseAnonKey.includes("YOUR_"))}
 async function initSupabase(){
   if(!supabaseReady()){document.body.classList.add("auth-required");openAuth("Supabase belum tersambung. Periksa config.js.");return}
@@ -1100,7 +1104,7 @@ $("doLogin")?.addEventListener("click",async()=>{
     setAuthStatus("Mendaftarkan akun...","pending");
     const {data,error}=await sb.auth.signUp({
       email,password,
-      options:{emailRedirectTo:location.origin+location.pathname}
+      options:{emailRedirectTo:authRedirectUrl()}
     });
     if(error){setAuthStatus(friendlyAuthError(error,"register"),"error");return}
     if(data?.session){
@@ -1130,7 +1134,7 @@ $$(".social-login[data-provider]").forEach(btn=>btn.addEventListener("click",asy
   setAuthStatus("Membuka login "+label+"...","pending");
   const {error}=await sb.auth.signInWithOAuth({
     provider,
-    options:{redirectTo:location.origin+location.pathname}
+    options:{redirectTo:authRedirectUrl()}
   });
   if(error)setAuthStatus(label+" belum aktif / belum dikonfigurasi: "+error.message,"error");
 }));
@@ -1209,7 +1213,7 @@ $$("[data-link-provider]").forEach(btn=>btn.addEventListener("click",async()=>{
   if(status){status.textContent="Membuka "+label+"...";status.className="auth-status show pending"}
   const {error}=await sb.auth.linkIdentity({
     provider,
-    options:{redirectTo:location.origin+location.pathname}
+    options:{redirectTo:authRedirectUrl()}
   });
   if(error&&status){status.textContent=label+" belum dapat dihubungkan: "+error.message;status.className="auth-status show error"}
 }));
@@ -1218,7 +1222,7 @@ $("linkEmailBtn")?.addEventListener("click",async()=>{
   const email=$("linkEmailInput")?.value.trim(),status=$("accountConnectStatus");
   if(!email)return;
   if(status){status.textContent="Mengirim verifikasi email...";status.className="auth-status show pending"}
-  const {error}=await sb.auth.updateUser({email},{emailRedirectTo:location.origin+location.pathname});
+  const {error}=await sb.auth.updateUser({email},{emailRedirectTo:authRedirectUrl()});
   if(error){if(status){status.textContent=error.message;status.className="auth-status show error"};return}
   if(status){status.textContent="Periksa email untuk menyelesaikan verifikasi.";status.className="auth-status show success"}
 });

@@ -40,3 +40,37 @@ Pilihan akun:
 Untuk Instagram dan LINE, buat Custom OAuth/OIDC Provider di Supabase dengan identifier yang sama.
 Untuk WhatsApp OTP, Supabase memerlukan Phone Auth dengan Twilio atau Twilio Verify.
 Manual identity linking perlu diaktifkan di Supabase Authentication settings agar tombol Hubungkan Instagram/Facebook/LINE bekerja.
+
+
+## V6.2.1 Connection Fix
+- Memperbaiki syntax `config.js` yang sebelumnya membuat Supabase tidak terbaca.
+- Core Supabase (email auth, database, friends, games, complaints, logs) sekarang dapat diinisialisasi.
+- Facebook / Instagram / LINE / WhatsApp tetap memerlukan provider credential masing-masing di Supabase Authentication.
+
+
+## V6.2.2 Email verification redirect fix
+Auth redirect dipaksa ke:
+https://valueetwo.github.io/buddhist/
+
+Di Supabase Dashboard -> Authentication -> URL Configuration:
+- Site URL: https://valueetwo.github.io/buddhist/
+- Redirect URLs: https://valueetwo.github.io/buddhist/
+  (boleh juga tambahkan https://valueetwo.github.io/buddhist/** bila Supabase menerima wildcard)
+Lalu kirim ulang email verifikasi.
+
+
+## V6.3 - Separate Supabase Project
+Dhamma Journey sekarang menggunakan project Supabase sendiri:
+- Project: Dhamma Journey
+- Project ref: chworywxohcxvuhgwhpj
+- Region: ap-southeast-1
+- GitHub Pages redirect: https://valueetwo.github.io/buddhist/
+
+Database inti, RLS, friendship RPC, complaint, games, materials, FAQ, activity log, role system,
+storage bucket, dan seed content sudah dibuat pada project baru.
+
+Owner email `clarita082523@gmail.com` akan otomatis mendapat role Owner setelah akun tersebut
+terdaftar di project Supabase baru.
+
+Catatan: Authentication URL Configuration pada project baru tetap perlu diisi di Dashboard Supabase:
+Site URL dan Redirect URL = https://valueetwo.github.io/buddhist/
