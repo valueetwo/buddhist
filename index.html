@@ -11,7 +11,7 @@
   <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Buka menu" aria-expanded="false">☀</button>
   <div class="brand buddhist-brand"><img src="assets/buddhist-logo.webp" alt="Buddhist"></div>
   <div class="search-wrap"><input class="search" id="globalSearch" autocomplete="off" placeholder="Cari mantra, video, FAQ, SOP, atau materi..."><div class="search-results" id="searchResults"></div></div>
-  <div class="user"><button id="adminAuthBtn" class="admin-auth-btn" type="button">🔐 Admin Login</button><span id="adminUserLabel" class="admin-user-label"></span></div>
+  <div class="user"><button id="adminAuthBtn" class="admin-auth-btn" type="button"><span class="login-avatar">👨🏻</span><span class="login-copy"><b id="loginMainText">Login / Daftar</b><small id="loginSubText">Administrator</small></span><span class="login-caret">⌄</span></button><span id="adminUserLabel" class="admin-user-label"></span></div>
 </header>
 <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
 
@@ -21,7 +21,7 @@
       <button class="active" data-page="dashboard">⌂ &nbsp; Dashboard</button>
       <button data-page="tutorial">▣ &nbsp; Tutorial Video</button>
       <button data-page="faq">ⓘ &nbsp; FAQ</button>
-      <button class="admin-only" data-page="Notes">▤ &nbsp; SOP</button>
+      <button data-page="Notes">▤ &nbsp; SOP</button>
       <button data-page="kategori">□ &nbsp; Kategori</button>
       <button data-page="favorit">☆  &nbsp; Favorit</button>
       <button data-page="riwayat">◷ &nbsp; Riwayat</button>
@@ -50,6 +50,7 @@
       <div class="media-layer" id="mediaLayer"></div>
       <div class="wave"></div><div class="wave2"></div><div class="wave3"></div>
       <div class="subtitle-overlay" id="subtitleOverlay">Subtitle aktif</div>
+      <button class="hero-center-hit" id="heroCenterPlay" type="button" aria-label="Putar mantra"></button>
       <div class="hero">
         <div>
           <h1 id="heroTitle">淨口業真言</h1>

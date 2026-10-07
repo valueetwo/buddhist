@@ -34,8 +34,8 @@ const MANTRA_DESC=[
   "Mantra penutup untuk menyempurnakan rangkaian bacaan."
 ];
 const MANTRA_THUMB=[
-  "assets/thumb-1.png","assets/thumb-2.png","assets/thumb-3.png","assets/thumb-3.png","assets/thumb-4.png",
-  "assets/thumb-5.png","assets/thumb-2.png","assets/thumb-4.png","assets/thumb-1.png","assets/thumb-5.png"
+  "assets/thumb-target-1.jpg","assets/thumb-target-2.jpg","assets/thumb-target-3.jpg","assets/thumb-target-3.jpg","assets/thumb-target-4.jpg",
+  "assets/thumb-target-5.jpg","assets/thumb-target-2.jpg","assets/thumb-target-4.jpg","assets/thumb-target-1.jpg","assets/thumb-target-5.jpg"
 ];
 const CATEGORIES=["Mantra Harian","Pemurnian","Perlindungan","Persembahan","Pelimpahan Jasa","Pujian","Permohonan","Pelengkap","Penutup"];
 
@@ -64,7 +64,7 @@ function say(msg){const t=$("toast"); if(!t)return; t.textContent=msg;t.classLis
 function secs(t){const a=String(t||"0:00").split(":").map(Number);return (a[0]||0)*60+(a[1]||0)}
 function clock(s){s=Math.max(0,Math.floor(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
 function showPage(id){
-  if(id==="Notes"&&!isAdmin){say("Notes hanya dapat dilihat Admin dan Owner");id="dashboard";}
+  
   $$(".nav button[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
   $$(".page-view").forEach(p=>p.classList.toggle("active",p.id===id));
   const info=document.querySelector(".info"); if(info)info.style.display=id==="dashboard"?"block":"none";
@@ -117,7 +117,7 @@ function renderRealVideo(v){
 }
 function setActive(i,center=true,recordHistory=true){
   if(!videos.length)return; active=Math.max(0,Math.min(i,videos.length-1)); elapsed=0; playing=false; clearInterval(timer);
-  const v=videos[active]; if($("heroTitle"))$("heroTitle").textContent=v[0]; if($("infoTitle"))$("infoTitle").textContent=v[0]; if($("infoPinyin"))$("infoPinyin").textContent=v._pinyin||v._tags?.find(x=>x!=="mantra")||""; if($("infoThumb"))$("infoThumb").src=effectiveVideoThumb(v)||MANTRA_THUMB[active%MANTRA_THUMB.length]||"assets/thumb-1.png"; if($("duration"))$("duration").textContent=v[2]||v[1]; if($("category"))$("category").textContent=v[3]||"Mantra";
+  const v=videos[active]; const playerEl=$("mainPlayer"); if(playerEl)playerEl.classList.toggle("reference-first",active===0&&!String(v?._videoUrl||"").trim()); if($("heroTitle"))$("heroTitle").textContent=v[0]; if($("infoTitle"))$("infoTitle").textContent=v[0]; if($("infoPinyin"))$("infoPinyin").textContent=v._pinyin||v._tags?.find(x=>x!=="mantra")||""; if($("infoThumb"))$("infoThumb").src=effectiveVideoThumb(v)||MANTRA_THUMB[active%MANTRA_THUMB.length]||"assets/thumb-1.png"; if($("duration"))$("duration").textContent=v[2]||v[1]; if($("category"))$("category").textContent=v[3]||"Mantra";
   if($("infoDesc"))$("infoDesc").textContent=v._description||("Panduan "+String(v[0]).toLowerCase()+" pada Buddhist Dashboard.");
   if($("materialTargetVideo"))$("materialTargetVideo").textContent=v[0]; if($("playBtn"))$("playBtn").textContent="▶"; renderRealVideo(v);
   if(recordHistory) history=[active,...history.filter(x=>x!==active)].slice(0,20); persist(); updatePlayer(); renderMaterialsMini(); refreshFavButtons();

@@ -2832,3 +2832,256 @@ footer b{color:#d8790f !important}
   .related{min-height:215px !important}
   .scroller{min-height:175px !important;height:175px !important}
 }
+
+
+/* =========================================================
+   PIXEL-MATCH V2 — tuned against the approved screenshot.
+   Desktop dashboard is matched as closely as possible while
+   keeping all PNG Dashboard interactions alive.
+   ========================================================= */
+
+body{
+  background:
+    radial-gradient(circle at 0% 100%,rgba(255,173,38,.23),transparent 18%),
+    radial-gradient(circle at 100% 100%,rgba(255,167,34,.22),transparent 17%),
+    #fff7e8 !important;
+}
+
+.topbar{
+  height:122px !important;
+  grid-template-columns:390px minmax(380px,620px) 1fr !important;
+  padding:7px 24px !important;
+  gap:26px !important;
+  background:
+    radial-gradient(circle at 72% 30%,rgba(255,255,255,.38),transparent 14%),
+    radial-gradient(circle at 87% 74%,rgba(255,188,72,.18),transparent 17%),
+    linear-gradient(180deg,#fff1ce 0%,#ffe0a8 100%) !important;
+  border-bottom:1px solid #ebb96d !important;
+}
+.topbar:before,.topbar:after{
+  content:"";position:absolute;pointer-events:none;opacity:.9;
+}
+.topbar:before{
+  left:0;top:0;width:100%;height:100%;
+  background:
+    radial-gradient(ellipse at 18% 90%,rgba(212,118,10,.12),transparent 18%),
+    radial-gradient(ellipse at 66% 85%,rgba(206,106,8,.12),transparent 18%),
+    radial-gradient(ellipse at 90% 85%,rgba(206,106,8,.10),transparent 14%);
+}
+.topbar:after{
+  left:12px;right:12px;bottom:0;height:2px;
+  background:linear-gradient(90deg,transparent,#d88318 15%,#f4c77e 50%,#d88318 85%,transparent);
+}
+.buddhist-brand img{
+  width:365px !important;max-height:108px !important;
+  object-fit:contain !important;object-position:left center !important;
+}
+.search-wrap{max-width:620px;width:100%;justify-self:center}
+.search{
+  height:58px !important;border-radius:31px !important;
+  font-size:17px !important;padding:0 24px !important;
+  background:#fffdf9 !important;border:1px solid #e1ba82 !important;
+  box-shadow:0 5px 13px rgba(133,72,10,.05),inset 0 1px 0 white !important;
+}
+.user{display:flex;align-items:center;justify-self:end}
+.admin-auth-btn{
+  min-width:235px !important;height:62px !important;
+  display:grid !important;grid-template-columns:43px 1fr 22px !important;
+  align-items:center !important;gap:10px !important;text-align:left !important;
+  border-radius:34px !important;padding:8px 15px !important;
+  background:#fffaf2 !important;border:1px solid #e4bd84 !important;
+}
+.login-avatar{
+  width:43px;height:43px;border-radius:50%;
+  display:grid;place-items:center;background:#f2b25d;font-size:23px;
+}
+.login-copy{display:flex;flex-direction:column;line-height:1.12}
+.login-copy b{font-size:15px;color:#4b301d}.login-copy small{font-size:11px;color:#86674d;margin-top:3px}
+.login-caret{font-size:20px;color:#6d4c31}
+.admin-user-label{display:none !important}
+
+.layout{
+  grid-template-columns:276px minmax(0,1fr) 358px !important;
+  padding:10px 12px 12px !important;gap:12px !important;
+  min-height:calc(100vh - 122px) !important;
+}
+.sidebar{
+  min-height:calc(100vh - 144px) !important;
+  padding:14px 15px 0 !important;
+  border-radius:16px !important;
+}
+.nav{gap:7px !important}
+.nav button{
+  height:48px;padding:0 15px !important;border-radius:13px !important;
+  font-size:15px !important;font-weight:600 !important;
+}
+.nav button.active{
+  background:linear-gradient(180deg,#f09a25,#e27609) !important;
+  box-shadow:0 7px 14px rgba(190,96,9,.21) !important;
+}
+.earth-mascot-wrap{
+  height:390px !important;
+  margin:12px -15px 0 !important;
+  background:url("../assets/earth-target.jpg") center bottom/cover no-repeat !important;
+  border-radius:0 0 15px 15px;
+}
+.earth-mascot-wrap .earth-mascot,
+.earth-mascot-wrap .earth-label{display:none !important}
+.sidebar .help{display:none !important}
+
+.main{
+  border:0 !important;background:transparent !important;
+  box-shadow:none !important;padding:0 !important;overflow:visible !important;
+}
+#dashboard{padding:0}
+.player{
+  height:513px !important;border-radius:15px !important;
+  border:1px solid #e5a143 !important;
+  background:#f2a32a !important;
+  box-shadow:0 5px 14px rgba(142,73,9,.15) !important;
+  overflow:hidden !important;
+}
+.player.reference-first{
+  background:url("../assets/hero-target.jpg") center center/cover no-repeat !important;
+}
+.player.reference-first:before{display:none !important}
+.player.reference-first .buddhist-hero-art,
+.player.reference-first .hero{
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+.player.reference-first .controls{
+  opacity:.015 !important;
+  pointer-events:auto !important;
+}
+.player.reference-first .subtitle-overlay{display:none !important}
+.hero-center-hit{
+  position:absolute;z-index:8;left:47%;top:50%;
+  width:118px;height:118px;border:0;border-radius:50%;
+  background:transparent;cursor:pointer;
+}
+.player:not(.reference-first) .hero-center-hit{display:none}
+
+.related{
+  min-height:247px !important;margin-top:8px !important;padding:4px 4px 0 !important;
+}
+.related-head{
+  height:48px !important;padding:0 3px !important;
+}
+.related-head h3{
+  font-size:18px !important;color:#6a3515 !important;
+}
+.related-head span{
+  font-size:14px !important;color:#c15f09 !important;
+}
+.scroller{
+  min-height:191px !important;height:191px !important;
+  padding:4px 1px 8px !important;gap:12px !important;
+  align-items:flex-start !important;
+}
+.card{
+  flex:0 0 calc((100% - 48px)/5) !important;
+  min-width:0 !important;transform:none !important;opacity:1 !important;filter:none !important;
+}
+.card .thumb{
+  height:132px !important;border-radius:10px 10px 0 0 !important;
+  border:1px solid #e2a14d !important;
+  box-shadow:none !important;
+}
+.card{
+  background:#fffaf4;border:1px solid #ead1ad;border-radius:11px;
+  padding-bottom:8px;box-shadow:0 5px 12px rgba(130,70,10,.08);
+}
+.card h4{font-size:14px !important;margin:8px 9px 2px !important}
+.card p{font-size:11px !important;margin:0 9px !important}
+.card-actions,.card-admin-actions{padding:0 8px}
+.card:first-child{border:2px solid #ed961f}
+.card:first-child .thumb{border:0 !important}
+.duration{
+  right:6px !important;bottom:6px !important;
+  padding:3px 6px !important;border-radius:5px !important;
+  font-size:11px !important;
+}
+.card-actions{display:none !important}
+.is-admin .card-admin-actions{display:none !important}
+
+.info{
+  top:132px !important;padding:15px 17px 18px !important;border-radius:16px !important;
+  min-height:575px !important;
+}
+.info-heading{
+  font-size:20px !important;margin:0 0 17px !important;
+  padding-bottom:13px !important;
+}
+.info-top{
+  grid-template-columns:84px 1fr 32px !important;gap:12px !important;
+}
+.info-thumb{
+  width:84px !important;height:74px !important;border-radius:10px !important;
+  content:url("../assets/info-thumb-target.jpg");
+}
+.info-title-copy .info-title{
+  font-size:22px !important;line-height:1.25 !important;
+}
+.info-pinyin{font-size:12px !important;margin-top:4px !important}
+.info-heart{font-size:32px !important}
+.info .desc{
+  font-size:12px !important;line-height:1.5 !important;margin:9px 0 13px !important;
+}
+.meta{font-size:11px !important;gap:10px !important;padding:12px 0 !important}
+.info h3:not(.info-title){font-size:16px !important;margin:14px 0 10px !important}
+.topics{font-size:11px !important;gap:8px !important}
+.material-more{display:none !important}
+.download{margin-top:10px !important}
+
+footer{display:none !important}
+
+/* FAQ/SOP/admin pages should keep the same warm visual language. */
+.layout.content-mode{
+  grid-template-columns:276px minmax(0,1fr) !important;
+}
+.layout.content-mode .main{
+  padding:0 !important;
+}
+.simple-page{
+  min-height:calc(100vh - 145px) !important;
+  border:1px solid #e6c28a;border-radius:16px;
+  background:#fffaf3 !important;padding:18px !important;
+  box-shadow:0 8px 20px rgba(125,67,10,.05);
+}
+.admin-split{grid-template-columns:minmax(0,1fr) 310px !important}
+.nezha-brand{
+  height:235px !important;border-radius:15px !important;
+  background:url("../assets/earth-target.jpg") center 58%/cover no-repeat !important;
+  overflow:hidden;border:1px solid #e6bb7b;
+}
+.nezha-brand img{display:none !important}
+.admin-card{border-radius:15px !important}
+.doc-item,.content-box{border-radius:14px !important}
+.doc-item h3,.content-box h3{color:#563217 !important}
+
+/* Override Cover Flow transforms on the approved dashboard:
+   the screenshot uses five equal cards in one row. */
+#dashboard .scroller .card{
+  transform:none !important;opacity:1 !important;filter:none !important;z-index:1 !important;
+}
+
+@media(max-width:1300px){
+  .layout{grid-template-columns:235px minmax(0,1fr) 315px !important}
+  .topbar{grid-template-columns:300px minmax(300px,1fr) auto !important}
+  .buddhist-brand img{width:285px !important}
+  .card{flex-basis:190px !important}
+  #dashboard .scroller{overflow-x:auto !important}
+}
+@media(max-width:760px){
+  .topbar{grid-template-columns:auto 1fr auto !important}
+  .layout{grid-template-columns:1fr !important}
+  .sidebar{min-height:100vh !important}
+  .earth-mascot-wrap{height:330px !important}
+  .info{position:static !important}
+  .player{height:340px !important}
+  .player.reference-first{background-size:cover !important}
+  .hero-center-hit{left:44%;top:48%;width:85px;height:85px}
+  .scroller{overflow-x:auto !important}
+  .card{flex:0 0 180px !important}
+}
