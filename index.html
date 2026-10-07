@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dhamma Journey</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Buka menu" aria-expanded="false">☀</button>
+  <div class="brand buddhist-brand"><img src="assets/buddhist-logo.webp" alt="Dhamma Journey"></div>
+  <div class="search-wrap"><input class="search" id="globalSearch" autocomplete="off" placeholder="Cari mantra, judul, atau topik..."><div class="search-results" id="searchResults"></div></div>
+  <div class="user">
+    <button class="header-bell" type="button" aria-label="Notifikasi"><span class="bell-dot"></span>🔔</button>
+    <button id="adminAuthBtn" class="admin-auth-btn target-profile" type="button">
+      <span class="login-avatar">👨🏻</span>
+      <span class="login-copy"><b id="loginMainText">Admin</b><small id="loginSubText">Administrator</small></span>
+      <span class="login-caret">⌄</span>
+    </button>
+    <span id="adminUserLabel" class="admin-user-label"></span>
+  </div>
+</header>
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav">
+      <button class="active" data-page="dashboard">⌂ &nbsp; Home</button>
+      <button data-page="tutorial">▣ &nbsp; Video</button>
+      <button data-page="materials-library">♫ &nbsp; Materi + Audio</button>
+      <button data-page="faq">ⓘ &nbsp; FAQ</button>
+      <button data-page="game">▤ &nbsp; Game</button>
+      <button data-page="kategori">□ &nbsp; Kategori Game</button>
+      <button data-page="friends">👥 &nbsp; Pertemanan</button>
+      <button data-page="favorit">☆  &nbsp; Favorit</button>
+      <button data-page="riwayat">◷ &nbsp; Riwayat</button>
+      <button data-page="playlist">☷ &nbsp; Playlist Saya</button>
+      <button class="owner-only" data-page="pengguna">⚙ &nbsp; Account</button>
+      <button class="owner-only" data-page="activity-log">◷ &nbsp; Log Aktivitas</button>
+      <button class="owner-only" data-page="complaints">💬 &nbsp; Complain</button>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="mascot-wrap earth-mascot-wrap"><img class="mascot earth-mascot" src="assets/earth-god-sidebar.webp" alt="Dewa Bumi"><div class="earth-label"><b>Dewa Bumi</b><span>Memberkati Setiap Langkah<br>Kebaikan Anda</span></div></div>
+      <div class="help">
+        <strong>🪷 Dhamma Journey</strong>
+        Akses video, materi audio, game Dhamma, FAQ, dan koleksi favorit.
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div id="dashboard" class="page-view active">
+    <div class="main-head">
+      <h2>Home</h2>
+    </div>
+
+    <section class="player" id="mainPlayer">
+      <div class="buddhist-hero-art"><img src="assets/guanyin-trio.png" alt="Dewi Kwan Im"></div>
+      <div class="media-layer" id="mediaLayer"></div>
+      <div class="wave"></div><div class="wave2"></div><div class="wave3"></div>
+      <div class="subtitle-overlay" id="subtitleOverlay">Subtitle aktif</div>
+      <button class="hero-center-hit" id="heroCenterPlay" type="button" aria-label="Putar mantra"></button>
+      <div class="hero">
+        <div>
+          <h1 id="heroTitle">淨口業真言</h1>
+          <p>Dhamma Journey</p>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="play" id="playBtn" aria-label="Putar atau jeda">▶</button>
+        <span id="playerTime">0:00 / 7:12</span>
+        <div class="track" id="playerTrack"><span id="playerProgress"></span></div>
+        <div class="player-actions">
+          <button class="control-icon" id="volumeBtn" type="button" title="Suara">🔊</button>
+          <div class="settings-wrap">
+            <button class="control-icon" id="settingsBtn" type="button" title="Pengaturan">⚙</button>
+            <div class="settings-menu" id="settingsMenu">
+              <div class="settings-title">Pengaturan Video</div>
+              <label class="settings-row">
+                <span>Resolusi</span>
+                <select id="resolutionSelect">
+                  <option>Auto</option><option>1080p</option><option>720p</option><option>480p</option><option>360p</option>
+                </select>
+              </label>
+              <button class="settings-row settings-action" id="subtitleBtn" type="button"><span>Subtitle</span><b id="subtitleStatus">Mati</b></button>
+              <button class="settings-row settings-action" id="playerFavBtn" type="button"><span>Favorit</span><b id="playerFavStatus">＋</b></button>
+              <button class="settings-row settings-action" id="playerPlaylistBtn" type="button"><span>Playlist</span><b id="playerPlaylistStatus">＋</b></button>
+            </div>
+          </div>
+          <button class="control-icon" id="fullscreenBtn" type="button" title="Layar penuh">⛶</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="related">
+      <div class="related-head">
+        <h3>🔥 Video Populer</h3>
+        <span>Lihat Semua →</span>
+      </div>
+      <div class="scroller" id="scroller"></div>
+    </section>
+    </div>
+
+    <div id="tutorial" class="page-view simple-page"><h2>Video</h2><p class="lead">Pilih video Dhamma. Setiap video dapat memiliki materi tertulis pendamping.</p><div class="content-grid"><div class="content-box"><h3>Manajemen Data</h3><p>Panduan mengelola data pada PNG Dashboard.</p></div><div class="content-box"><h3>Pengaturan Akun</h3><p>Panduan pengaturan profil dan akun.</p></div><div class="content-box"><h3>Keamanan Data</h3><p>Materi dasar menjaga keamanan data.</p></div><div class="content-box"><h3>Backup & Restore</h3><p>Panduan pencadangan dan pemulihan data.</p></div></div></div>
+    <div id="faq" class="page-view simple-page"><div class="admin-split"><section><h2>FAQ</h2><p class="lead">Pertanyaan yang sering ditanyakan.</p><div id="faqList" class="doc-list"></div></section><aside class="admin-side"><div class="nezha-brand faq-buddha-brand"><img src="assets/faq-buddha.jpg" alt="Buddha"></div><div class="admin-card"><h3>Tambah FAQ</h3><p>Tambahkan pertanyaan dan jawaban baru.</p><button class="admin-add admin-only" id="openFaqForm" type="button">＋ Tambah FAQ</button><div class="form-panel" id="faqForm"><input id="faqQuestion" placeholder="Pertanyaan"><textarea id="faqAnswer" placeholder="Jawaban FAQ"></textarea><textarea id="faqImportantNote" placeholder="Catatan penting (opsional)"></textarea><div class="form-actions"><button class="ghost-btn" id="cancelFaq" type="button">Batal</button><button class="red-btn" id="saveFaq" type="button">Simpan</button></div></div></div></aside></div></div>
+    <div id="game" class="page-view simple-page">
+      <div class="admin-split">
+        <section>
+          <h2>Game</h2>
+          <p class="lead">Koleksi game Dhamma. Kategori game dapat berupa Hospital, Temple, Monastery, Meditation Garden, dan lainnya.</p>
+          <div id="gameList" class="game-grid"></div>
+        </section>
+        <aside class="admin-side">
+          <div class="game-side-art"><img src="assets/thumb-target-3.jpg" alt="Temple"></div>
+          <div class="admin-card">
+            <h3>Tambah Game</h3>
+            <p>Admin dapat menambahkan game dan memilih kategorinya.</p>
+            <button class="admin-add admin-only" id="openGameForm" type="button">＋ Tambah Game</button>
+            <div class="form-panel" id="gameForm">
+              <input id="gameTitle" placeholder="Nama game">
+              <select id="gameCategory">
+                <option>Hospital</option>
+                <option>Temple</option>
+                <option>Monastery</option>
+                <option>Meditation Garden</option>
+                <option>Education</option>
+                <option>Other</option>
+              </select>
+              <textarea id="gameDescription" placeholder="Deskripsi game"></textarea>
+              <input id="gameThumbnailUrl" type="url" placeholder="URL thumbnail game (opsional)">
+              <input id="gameUrl" type="url" placeholder="URL / halaman game">
+              <select id="gameStatus">
+                <option value="coming_soon">Coming Soon</option>
+                <option value="active">Active</option>
+                <option value="hidden">Hidden</option>
+              </select>
+              <div class="form-actions">
+                <button class="ghost-btn" id="cancelGame" type="button">Batal</button>
+                <button class="red-btn" id="saveGame" type="button">Simpan</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div id="kategori" class="page-view simple-page">
+      <h2>Kategori Game</h2>
+      <p class="lead">Pilih jenis game yang ingin dimainkan.</p>
+      <div id="gameCategoryGrid" class="game-category-grid"></div>
+      <div id="gameCategoryResults" class="game-grid category-game-results"></div>
+    </div>
+    <div id="friends" class="page-view simple-page">
+      <div class="page-toolbar">
+        <div>
+          <h2>Pertemanan</h2>
+          <p class="lead">Cari ID teman, kirim permintaan, dan lihat siapa yang sedang online.</p>
+        </div>
+        <button class="admin-add" id="refreshFriends" type="button">⟳ Refresh</button>
+      </div>
+
+      <section class="friend-identity-card">
+        <div>
+          <small>ID Teman Saya</small>
+          <strong id="myFriendCode">Memuat...</strong>
+          <p>Bagikan ID ini kepada temanmu agar mereka dapat menambahkanmu.</p>
+        </div>
+        <button id="copyFriendCode" class="red-btn" type="button">Salin ID</button>
+      </section>
+
+      <section class="friend-search-card">
+        <h3>Cari Teman</h3>
+        <div class="friend-search-row">
+          <input id="friendCodeSearch" type="text" placeholder="Contoh: DJ-AB12CD34" autocomplete="off">
+          <button id="searchFriendBtn" class="red-btn" type="button">Cari ID</button>
+        </div>
+        <div id="friendSearchResult" class="friend-search-result"></div>
+      </section>
+
+      <div class="friends-two-col">
+        <section>
+          <div class="section-mini-head"><h3>Permintaan Pertemanan</h3><span id="incomingFriendCount">0</span></div>
+          <div id="friendRequestList" class="friend-list"></div>
+        </section>
+        <section>
+          <div class="section-mini-head"><h3>Teman Online</h3><span id="onlineFriendCount">0</span></div>
+          <div id="onlineFriendList" class="friend-list"></div>
+        </section>
+      </div>
+
+      <section>
+        <div class="section-mini-head"><h3>Semua Teman</h3><span id="allFriendCount">0</span></div>
+        <div id="allFriendList" class="friend-grid"></div>
+      </section>
+    </div>
+
+    <div id="favorit" class="page-view simple-page"><h2>Favorit</h2><p class="lead">Tutorial yang kamu simpan akan tampil di sini.</p><div class="content-box"><h3>Belum ada favorit</h3><p>Nanti kita bisa tambahkan tombol bintang pada setiap tutorial.</p></div></div>
+    <div id="riwayat" class="page-view simple-page"><h2>Riwayat</h2><p class="lead">Daftar tutorial yang terakhir dibuka.</p><div class="content-box"><h3>Manajemen Data</h3><p>Terakhir dilihat • 7 menit 12 detik</p></div></div>
+    <div id="playlist" class="page-view simple-page"><h2>Playlist Saya</h2><p class="lead">Kumpulan tutorial pilihanmu.</p><div class="content-box"><h3>Playlist masih kosong</h3><p>Nanti tutorial bisa ditambahkan ke playlist dari halaman video.</p></div></div>
+
+    <div id="materials-library" class="page-view simple-page">
+      <div class="page-toolbar">
+        <div>
+          <h2>Materi + Audio</h2>
+          <p class="lead">Materi tertulis yang dapat dibaca sambil mendengarkan audio pendamping.</p>
+        </div>
+        <button class="admin-add admin-only" id="libraryAddMaterial" type="button">＋ Tambah Materi</button>
+      </div>
+      <div id="materialLibraryGrid" class="material-library-grid"></div>
+    </div>
+
+    <div id="materi-detail" class="page-view simple-page article-page"><div class="content-page-head"><button class="content-back" id="materialDetailBack" type="button">←</button><div><h2>Materi Video</h2><p class="lead" id="materialDetailVideo">Materi tertulis untuk video aktif.</p></div></div><article class="article-card"><span class="preview-category" id="materialDetailCategory">Materi</span><h1 id="materialDetailTitle">Belum ada materi</h1><p class="article-summary" id="materialDetailSummary"></p><div class="material-audio-box" id="materialAudioBox"><div><b>♫ Audio Materi</b><small id="materialAudioLabel">Dengarkan sambil membaca materi.</small></div><audio id="materialAudioPlayer" controls preload="metadata"></audio></div><div class="preview-divider"></div><div class="article-body" id="materialDetailBody">Tambahkan materi dari dashboard.</div><div class="article-material-nav" id="materialDetailNav"></div></article></div>
+
+    <div id="tambah-konten" class="page-view simple-page"><div class="admin-lock-note">Halaman ini khusus admin. Login sebagai admin untuk menambah atau mengubah konten.</div>
+      <div class="content-page-head">
+        <button class="content-back" id="contentBack" type="button">←</button>
+        <div><h2>Tambah Konten</h2><p class="lead">Tambahkan video/mantra dan materi pendamping.</p></div>
+      </div>
+      <div class="content-tabs">
+        <button class="content-tab active" data-content-tab="video" type="button">1. Video</button>
+        <button class="content-tab" data-content-tab="materi" type="button">2. Materi</button>
+      </div>
+
+      <div id="tab-materi" class="content-tab-page">
+        <div class="content-editor-layout">
+          <section class="content-editor-box">
+            <h3>Informasi Materi</h3><div class="video-edit-note" id="materialEditNote">✏Mode Edit Materi — perubahan akan mengganti sub materi yang dipilih.</div><div class="editor-field"><label>Video Induk <b>*</b></label><select id="materialParentVideo"><option value="">Pilih video untuk sub materi</option></select></div>
+            <div class="editor-field"><label>Judul Materi <b>*</b></label><input id="materialPageTitle" type="text" placeholder="Masukkan judul materi"></div>
+            <div class="editor-field"><label>Kategori <b>*</b></label><select id="materialPageCategory"><option value="">Pilih kategori</option></select></div>
+            <div class="editor-field"><label>Peringatan</label><textarea id="materialSummary" class="small-textarea" placeholder="Tuliskan pesan peringatan..."></textarea></div>
+            <div class="editor-field"><label>Isi Materi <b>*</b></label><div class="text-toolbar"><button type="button"><b>B</b></button><button type="button"><i>I</i></button><button type="button"><u>U</u></button><button type="button">☷</button><button type="button">🔗</button></div><textarea id="materialContent" class="material-textarea" placeholder="Tulis materi lengkap di sini..."></textarea></div>
+            <div class="editor-field"><label>Audio Materi</label><input id="materialAudioUrl" type="url" placeholder="URL MP3 / audio (opsional)"></div>
+            <div class="editor-field"><label>Atau Upload Audio</label><input id="materialAudioFile" type="file" accept="audio/*"></div>
+            <div class="editor-field"><label>File Pendukung</label><input id="materialAttachment" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"></div>
+          </section>
+          <aside class="content-preview-box">
+            <h3>Preview Materi</h3>
+            <div class="article-preview"><span class="preview-category" id="previewMaterialCategory">Kategori</span><h2 id="previewMaterialTitle">Judul Materi</h2><p id="previewMaterialSummary">Ringkasan materi akan tampil di sini.</p><div class="preview-divider"></div><div class="preview-article-text" id="previewMaterialContent">Isi materi yang ditulis akan muncul sebagai preview di bagian ini.</div></div>
+          </aside>
+        </div>
+        <div class="content-save-bar"><button class="content-cancel" id="cancelMaterial" type="button">Batal</button><button class="content-save" id="saveMaterial" type="button">▣ &nbsp; Simpan Materi</button></div>
+      </div>
+
+      <div id="tab-video" class="content-tab-page active">
+        <div class="video-editor-layout">
+          <section class="content-editor-box">
+            <h3>Informasi Video</h3>
+            <div class="video-edit-note" id="videoEditNote">✏️ Mode Edit — perubahan akan mengganti video yang dipilih.</div>
+            <div class="editor-field"><label>Judul Video <b>*</b></label><input id="newVideoTitle" type="text" placeholder="Masukkan judul video / mantra"></div>
+            <div class="editor-field"><label>Kategori <b>*</b></label><select id="newVideoCategory"><option value="">Pilih kategori</option></select></div>
+            <div class="editor-field"><label>Deskripsi Video</label><textarea id="newVideoDescription" class="small-textarea" maxlength="500" placeholder="Tuliskan deskripsi singkat tentang video..."></textarea></div>
+            <div class="editor-two"><div class="editor-field"><label>Durasi Video <small style="color:#7f8892">(otomatis)</small></label><input id="newVideoDuration" type="text" placeholder="Otomatis dari video" readonly></div><div class="editor-field"><label>Bahasa</label><select id="newVideoLanguage"><option>Indonesia</option><option>English</option></select></div></div>
+            <div class="editor-field"><label>Thumbnail Video</label><label class="upload-box" for="newVideoThumbnail"><strong>▧</strong><span>Klik untuk upload thumbnail</span><small>JPG atau PNG</small></label><input id="newVideoThumbnail" type="file" accept="image/png,image/jpeg" hidden></div>
+            <div class="editor-field"><label>Atau URL Thumbnail</label><input id="newVideoThumbnailUrl" type="url" placeholder="https://.../thumbnail.jpg"></div>
+            <div class="editor-field"><label>Upload Video</label><label class="upload-box" for="newVideoFile"><strong>⇧</strong><span>Klik untuk memilih video</span><small>MP4, MOV, AVI atau MKV</small></label><input id="newVideoFile" type="file" accept="video/*" hidden></div>
+            <div class="editor-field"><label>Link Video</label><input id="newVideoUrl" type="url" placeholder="YouTube / Vimeo / link lainnya"></div>
+            <div class="editor-field"><label>Tag</label><input id="newVideoTags" type="text" placeholder="mantra, pinyin, pemurnian"></div>
+          </section>
+          <section class="content-preview-box">
+            <h3>Preview Video</h3>
+            <div class="video-thumb-preview" id="videoThumbPreview"><span>▧</span><strong>Preview Thumbnail</strong><small>Thumbnail video akan muncul di sini</small></div>
+            <div class="video-fake-player"><div class="wave"></div><div class="wave2"></div><button type="button">▶</button></div>
+            <h3 class="video-info-heading">Informasi Video</h3>
+            <div class="video-preview-info"><span>Judul</span><b id="previewVideoTitle">-</b><span>Kategori</span><b id="previewVideoCategory">-</b><span>Durasi</span><b id="previewVideoDuration">-</b></div>
+          </section>
+          <aside class="video-guide">
+            <h3>ⓘ &nbsp; Panduan Tambah Video</h3>
+            <div class="guide-item"><b>1. Informasi Video</b><p>Lengkapi judul, kategori, deskripsi dan durasi video.</p></div>
+            <div class="guide-item"><b>2. Upload Video</b><p>Pilih file video atau gunakan link video yang tersedia.</p></div>
+            <div class="guide-item"><b>3. Thumbnail</b><p>Gunakan gambar yang jelas dan sesuai dengan isi tutorial.</p></div>
+            <div class="guide-item"><b>4. Publikasi</b><p>Periksa kembali informasi sebelum menyimpan video.</p></div>
+          </aside>
+        </div>
+        <div class="content-save-bar"><button class="content-cancel" id="cancelVideo" type="button">Batal</button><button class="content-save" id="saveVideo" type="button">▣ &nbsp; Simpan Video</button></div>
+      </div>
+    </div>
+
+    <div id="pengguna" class="page-view simple-page">
+      <div class="page-toolbar"><div><h2>Account</h2><p class="lead" style="margin:4px 0 0">Hanya pemilik dashboard yang dapat memberi atau mencabut izin admin.</p></div></div>
+      <div class="content-box"><h3>Akun terdaftar</h3><p>Akun pengguna aktif setelah verifikasi email atau login sosial. Tidak perlu persetujuan Admin/Owner. Owner tetap dapat memberikan atau mencabut role Admin.</p><div id="userAdminList" class="user-admin-list"></div></div>
+    </div>
+
+    <div id="activity-log" class="page-view simple-page">
+      <div class="page-toolbar">
+        <div><h2>Log Aktivitas Pemain</h2><p class="lead" style="margin:4px 0 0">Ringkasan hanya menampilkan nama pemain dan email. Klik pemain untuk melihat detail log.</p></div>
+        <button class="admin-add owner-only" id="refreshActivityLog" type="button" style="width:auto;padding:8px 12px">⟳ Refresh</button>
+      </div>
+      <div id="activityLogList" class="doc-list"><div class="page-empty">Memuat log...</div></div>
+    </div>
+
+    <div id="complaints" class="page-view simple-page owner-only">
+      <div class="page-toolbar">
+        <div><h2>Complain Pengguna</h2><p class="lead">Khusus Owner — pesan complain yang dikirim pengguna.</p></div>
+        <button class="admin-add owner-only" id="refreshComplaints" type="button">⟳ Refresh</button>
+      </div>
+      <div id="complaintList" class="doc-list"><div class="page-empty">Belum dimuat.</div></div>
+    </div>
+
+  </main>
+
+  <aside class="info">
+    <h2 class="info-heading"><span class="info-heading-lotus" aria-hidden="true"></span>Informasi Bacaan</h2>
+    <div class="info-top">
+      <img id="infoThumb" class="info-thumb" src="assets/thumb-1.png" alt="Thumbnail bacaan">
+      <div class="info-title-copy">
+        <h3 class="info-title" id="infoTitle">淨口業真言</h3>
+        <p id="infoPinyin" class="info-pinyin">Jing Kou Ye Zhen Yan</p>
+      </div>
+      <button id="infoHeart" class="info-heart" type="button" aria-label="Favorit">♡</button>
+    </div>
+    <p class="desc" id="infoDesc">Mantra suci untuk membersihkan ucapan, menjernihkan pikiran, dan menjaga kesucian kata-kata.</p>
+    <div class="meta">
+      <div class="label">◷ Durasi</div><div id="duration">12:34</div>
+      <div class="label">▣ Kategori</div><div><span class="tag" id="category">Mantra Harian</span></div>
+      <div class="label">🗓 Tanggal Upload</div><div>10 Jan 2025</div>
+      <div class="label">👤 Oleh</div><div>Tim Dhamma Journey</div>
+    </div>
+    <h3>📋 Materi yang Dibahas</h3>
+    <div class="topics material-list-mini" id="activeMaterialList"></div>
+    <button class="material-more" id="openMaterialDetail" type="button">Selengkapnya</button>
+    <button class="download admin-only" id="addMaterialBtn" type="button">＋ &nbsp; Tambahkan materi</button>
+  </aside>
+</div>
+
+<footer>© 2026 <b>Dhamma Journey</b>. Semua hak dilindungi.</footer>
+
+
+<div class="auth-modal" id="authModal" aria-hidden="true">
+  <div class="auth-card">
+    <h3 id="authTitle">Masuk ke Dhamma Journey</h3>
+    <p id="authHelp">Login wajib sebelum masuk ke aplikasi.</p>
+    <div class="auth-mode-tabs"><button id="authLoginTab" class="active" type="button">Login</button><button id="authRegisterTab" type="button">Daftar</button></div>
+    <div id="authStatus" class="auth-status" role="status" aria-live="polite"></div>
+    <div id="authForm">
+      <input id="adminEmail" type="email" autocomplete="username" placeholder="Email">
+      <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password">
+      <div class="auth-actions"><button class="ghost-btn" id="closeAuth" type="button">Batal</button><button class="red-btn" id="doLogin" type="button">Login</button></div>
+      <div class="social-divider"><span>atau lanjutkan dengan</span></div>
+      <div class="social-login-grid auth-method-grid">
+        <button class="social-login instagram" data-provider="custom:instagram" data-provider-label="Instagram" type="button">◎&nbsp; Instagram</button>
+        <button class="social-login facebook" data-provider="facebook" data-provider-label="Facebook" type="button">f&nbsp; Facebook</button>
+        <button class="social-login line" data-provider="custom:line" data-provider-label="LINE" type="button">LINE</button>
+        <button class="social-login whatsapp" data-auth-method="whatsapp" type="button">☏&nbsp; WhatsApp</button>
+      </div>
+      <small class="social-help">Email tersedia pada form di atas. Instagram dan LINE memakai Custom OAuth/OIDC. WhatsApp memakai OTP.</small>
+      <div id="whatsappLoginPanel" class="whatsapp-auth-panel">
+        <div class="whatsapp-step">
+          <label>Nomor WhatsApp</label>
+          <input id="whatsappPhone" type="tel" inputmode="tel" placeholder="+62xxxxxxxxxxx">
+          <button id="sendWhatsappOtp" class="red-btn" type="button">Kirim Kode WhatsApp</button>
+        </div>
+        <div id="whatsappOtpStep" class="whatsapp-step hidden">
+          <label>Kode OTP</label>
+          <input id="whatsappOtp" type="text" inputmode="numeric" maxlength="6" placeholder="6 digit OTP">
+          <button id="verifyWhatsappOtp" class="red-btn" type="button">Verifikasi & Masuk</button>
+        </div>
+      </div>
+    </div>
+    <div class="sync-badge local" id="syncBadge">Mode lokal / Supabase belum dihubungkan</div>
+  </div>
+</div>
+
+<div class="auth-modal account-connect-modal" id="accountConnectModal" aria-hidden="true">
+  <div class="auth-card account-connect-card">
+    <div class="account-connect-head">
+      <div>
+        <h3>Akun Dhamma Journey</h3>
+        <p id="accountConnectEmail">-</p>
+      </div>
+      <button id="closeAccountConnect" class="ghost-btn" type="button">Tutup</button>
+    </div>
+    <h4>Hubungkan Akun</h4>
+    <p class="account-connect-note">Kamu bisa menghubungkan akun lain agar punya lebih dari satu cara untuk masuk.</p>
+    <div id="linkedIdentityList" class="linked-identity-list"></div>
+    <div class="connect-provider-grid">
+      <button class="connect-provider instagram" data-link-provider="custom:instagram" data-provider-label="Instagram" type="button">◎ Instagram</button>
+      <button class="connect-provider facebook" data-link-provider="facebook" data-provider-label="Facebook" type="button">f Facebook</button>
+      <button class="connect-provider line" data-link-provider="custom:line" data-provider-label="LINE" type="button">LINE</button>
+    </div>
+    <div class="account-email-link">
+      <label>Hubungkan / ubah Email</label>
+      <div class="friend-search-row">
+        <input id="linkEmailInput" type="email" placeholder="email@contoh.com">
+        <button id="linkEmailBtn" class="red-btn" type="button">Simpan Email</button>
+      </div>
+      <small>Supabase akan meminta verifikasi email bila diperlukan.</small>
+    </div>
+    <div id="accountConnectStatus" class="auth-status" role="status"></div>
+    <div class="auth-actions">
+      <button id="accountLogoutBtn" class="ghost-btn" type="button">Logout</button>
+    </div>
+  </div>
+</div>
+
+<button id="complaintFab" class="complaint-fab" type="button">💬 Complain</button>
+<div class="auth-modal complaint-modal" id="complaintModal" aria-hidden="true">
+  <div class="auth-card complaint-card">
+    <h3>Kirim Complain</h3>
+    <p>Pesan ini hanya dapat dibaca oleh akun Owner.</p>
+    <input id="complaintSubject" type="text" maxlength="120" placeholder="Judul complain">
+    <textarea id="complaintMessage" maxlength="2000" placeholder="Ceritakan masalah atau saranmu..."></textarea>
+    <div id="complaintStatus" class="auth-status" role="status"></div>
+    <div class="auth-actions">
+      <button class="ghost-btn" id="closeComplaint" type="button">Batal</button>
+      <button class="red-btn" id="sendComplaint" type="button">Kirim</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="auth-modal log-detail-modal" id="activityPlayerModal" aria-hidden="true">
+  <div class="auth-card log-detail-card">
+    <div class="log-detail-head">
+      <div>
+        <h3 id="activityPlayerName">Pemain</h3>
+        <p id="activityPlayerEmail">email</p>
+      </div>
+      <button id="closeActivityPlayer" class="ghost-btn" type="button">Tutup</button>
+    </div>
+    <div id="activityPlayerDetailList" class="activity-detail-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onload="window.dispatchEvent(new Event('buddhist-supabase-ready'))"></script>
+<script src="config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
