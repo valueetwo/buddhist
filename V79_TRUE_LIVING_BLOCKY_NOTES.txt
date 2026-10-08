@@ -1,0 +1,11 @@
+Dhamma Journey V7.9 — True Living Blocky Character
+
+- Replaces the V7.8 SVG character with a Roblox-inspired blocky 3D-style DOM puppet.
+- Independent head, torso, arms, hands, legs and feet.
+- requestAnimationFrame state machine: idle, wave, calm, nod, walk, jump, talk.
+- Mouse/touch gaze tracking and automatic blinking.
+- AI text replies trigger visual talking only; no voice/speech synthesis.
+- Old PNG/SVG character layers are hidden to prevent stacking/cropping bugs.
+- Added Jalan and Lompat controls.
+- Existing Lotus Companion chat/database logic remains in app.js.
+- This is a Roblox-inspired web character, not the Roblox engine.

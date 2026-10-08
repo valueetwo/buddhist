@@ -1,0 +1,12 @@
+Dhamma Journey V7.4 — Living Character + Voice
+
+Changes:
+- Character idle loop now breathes, sways subtly, looks around, nods, and reacts to pointer/touch.
+- Sapa and Tenang trigger speech bubble + browser voice when supported.
+- Lotus Companion responses are spoken aloud with Indonesian voice preference when available.
+- Voice toggle added to Lobby: Suara ON/OFF.
+- Speech uses Web Speech API, so no external TTS service or API key is required.
+- If the browser has no Indonesian voice, the closest available voice is used.
+- Existing V7.3 layered character assets and gender switching are preserved.
+
+Browser note: the first speech may require a user interaction because browsers restrict autoplay audio.

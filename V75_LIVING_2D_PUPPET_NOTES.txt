@@ -1,0 +1,16 @@
+Dhamma Journey V7.5 — Living 2.5D Chibi Puppet
+
+Perubahan utama:
+- Karakter laki-laki tidak lagi dirender sebagai satu PNG utuh.
+- PNG chibi dipisah menjadi layer kepala dan tubuh untuk rig 2.5D.
+- Kepala dan tubuh bergerak secara independen dengan requestAnimationFrame + spring follow.
+- Kepala mengikuti kursor desktop dan sentuhan pointer di perangkat mobile.
+- Idle life loop: napas, bob, sway, micro-look, dan kedipan acak.
+- Mata ditutup menggunakan overlay eyelid saat blink/meditasi.
+- Mulut dianimasikan saat SpeechSynthesis aktif.
+- Sapa/Tenang memiliki gesture dan tempo gerak berbeda.
+- Suara tetap menggunakan Web Speech API dengan prioritas voice Bahasa Indonesia.
+- Perempuan dan karakter custom tetap memakai jalur lama sebagai fallback.
+
+Catatan teknis:
+Ini adalah rig 2.5D berbasis HTML/CSS/JS, bukan file Live2D Cubism (.moc3). Karena itu tidak membutuhkan runtime eksternal dan dapat berjalan langsung di browser. Gerak mesh/deformasi seperti Live2D penuh dapat ditambahkan pada fase berikutnya jika proyek memakai model Cubism khusus.

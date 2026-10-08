@@ -1,0 +1,19 @@
+DHAMMA JOURNEY V7.7 — TRUE LIVING CHARACTER / NO VOICE
+
+Perubahan utama:
+- Karakter monk vector sekarang menjadi fallback hidup yang benar-benar terpisah dari foto PNG.
+- Kepala mengikuti pointer/touch secara halus.
+- Mata mengikuti arah pointer dan tetap berkedip otomatis.
+- Tubuh bernapas/bergoyang halus terus-menerus.
+- Sapa menggerakkan tangan, kepala, dan menampilkan reaksi.
+- Tenang/meditasi mengubah gerakan tubuh dan tangan.
+- Saat Lotus Companion menjawab, mulut/kepala karakter bergerak secara visual tanpa audio.
+- Karakter custom dan karakter starter dibuat eksklusif agar tidak tampil bertumpuk.
+- Ukuran karakter diperbaiki agar seluruh badan tetap terlihat dan tidak terpotong di desktop maupun mobile.
+- Voice/SpeechSynthesis dihapus dari UI dan alur karakter.
+- Custom PNG tetap didukung dengan idle/parallax ringan; untuk rig penuh gunakan karakter vector/2.5D.
+
+Pengujian:
+- app.js lolos node --check.
+- preview-karakter.js lolos node --check.
+- ID HTML tidak duplikat.

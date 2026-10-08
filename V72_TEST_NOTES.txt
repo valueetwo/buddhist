@@ -1,0 +1,14 @@
+DHAMMA JOURNEY V7.2 - VALIDATION NOTES
+
+Baseline: V7.1 Stable Repair.
+Approach: scoped HTML/JS/CSS patches; no destructive layout rewrite.
+
+Static validation completed:
+- JavaScript syntax (node --check): PASS
+- Duplicate HTML IDs: none
+- Required new UI IDs: present
+- Local image/script/style references: present
+- Stale V7.1 names/asset refs targeted by this patch: cleared
+- Supabase V7.2 schema migration: applied and verified
+
+Runtime visual browser automation could not be completed in this environment because local browser navigation is blocked by the execution sandbox. Please do a quick click-through after deploying to GitHub Pages before deleting the previous V7.1 backup.

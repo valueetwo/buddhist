@@ -1,0 +1,16 @@
+Dhamma Journey V7.8 — True Living AI Character
+
+Perubahan:
+- Menambahkan procedural SVG AI character. Ini bukan satu PNG yang digeser.
+- Kepala, tubuh, lengan, mata/pupil, mulut, pipi, dan ekspresi adalah elemen terpisah.
+- Idle breathing + sway terus berjalan.
+- Tatapan mengikuti pointer/touch.
+- Blink otomatis.
+- Gesture: wave, calm/meditate, nod, shy, talk.
+- Text-driven emotion untuk respons Lotus Companion.
+- Terhubung ke speech bubble dan lobby AI messages melalui MutationObserver.
+- Tidak memakai suara / SpeechSynthesis.
+- Custom uploaded character tetap diprioritaskan jika aktif; vector AI tampil saat tidak ada custom.
+- Standalone test: living-ai-demo.html
+
+Catatan: ini adalah procedural 2D puppet yang benar-benar digerakkan oleh JavaScript per frame. Untuk deformasi mesh tingkat Live2D/VTuber, tahap berikutnya dapat menggunakan rig mesh khusus.

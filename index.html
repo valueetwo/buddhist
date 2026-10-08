@@ -9,12 +9,18 @@
 <body>
 <header class="topbar">
   <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Buka menu" aria-expanded="false">☀</button>
-  <div class="brand buddhist-brand"><img src="assets/buddhist-logo.webp" alt="Dhamma Journey"></div>
+  <div class="brand buddhist-brand"><img src="assets/buddhist-main-logo-user.png" alt="Dewi Kwan Im"></div>
   <div class="search-wrap"><input class="search" id="globalSearch" autocomplete="off" placeholder="Cari mantra, judul, atau topik..."><div class="search-results" id="searchResults"></div></div>
   <div class="user">
-    <button class="header-bell" type="button" aria-label="Notifikasi"><span class="bell-dot"></span>🔔</button>
+    <button class="header-bell" id="notificationBell" type="button" aria-label="Notifikasi" aria-expanded="false">
+      <span class="bell-dot"></span><span class="bell-icon">🔔</span><span class="notification-count" id="notificationCount">0</span>
+    </button>
+    <div class="notification-panel" id="notificationPanel" aria-hidden="true">
+      <div class="notification-head"><div><b>Notifikasi</b><small id="notificationSubtitle">Pemberitahuan terbaru</small></div><button id="markAllNotifications" type="button">Tandai dibaca</button></div>
+      <div class="notification-list" id="notificationList"><div class="notification-empty">Belum ada notifikasi.</div></div>
+    </div>
     <button id="adminAuthBtn" class="admin-auth-btn target-profile" type="button">
-      <span class="login-avatar">👨🏻</span>
+      <span class="login-avatar" id="headerAvatar">👤</span>
       <span class="login-copy"><b id="loginMainText">Admin</b><small id="loginSubText">Administrator</small></span>
       <span class="login-caret">⌄</span>
     </button>
@@ -22,7 +28,6 @@
   </div>
 </header>
 <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
-
 <div class="layout">
   <aside class="sidebar">
     <div class="nav">
@@ -33,29 +38,176 @@
       <button data-page="game">▤ &nbsp; Game</button>
       <button data-page="kategori">□ &nbsp; Kategori Game</button>
       <button data-page="friends">👥 &nbsp; Pertemanan</button>
+      <button data-page="chat">💬 &nbsp; Chat</button>
+      <button data-page="caishen"><img class="nav-coin-icon" src="assets/coin-icon-user.png" alt=""> &nbsp; Coin</button>
       <button data-page="favorit">☆  &nbsp; Favorit</button>
       <button data-page="riwayat">◷ &nbsp; Riwayat</button>
       <button data-page="playlist">☷ &nbsp; Playlist Saya</button>
+      <button data-page="settings">⚙ &nbsp; Pengaturan</button>
       <button class="owner-only" data-page="pengguna">⚙ &nbsp; Account</button>
       <button class="owner-only" data-page="activity-log">◷ &nbsp; Log Aktivitas</button>
       <button class="owner-only" data-page="complaints">💬 &nbsp; Complain</button>
     </div>
-
     <div class="sidebar-bottom">
-      <div class="mascot-wrap earth-mascot-wrap"><img class="mascot earth-mascot" src="assets/earth-god-sidebar.webp" alt="Dewa Bumi"><div class="earth-label"><b>Dewa Bumi</b><span>Memberkati Setiap Langkah<br>Kebaikan Anda</span></div></div>
+      <div class="mascot-wrap earth-mascot-wrap"><img class="mascot earth-mascot" src="assets/dewa-bumi-user.png" alt="Dewa Bumi"><div class="earth-label earth-label-hidden"><b>Dewa Bumi</b><span>Memberkati Setiap Langkah<br>Kebaikan Anda</span></div></div>
       <div class="help">
         <strong>🪷 Dhamma Journey</strong>
         Akses video, materi audio, game Dhamma, FAQ, dan koleksi favorit.
       </div>
     </div>
   </aside>
-
   <main class="main">
-    <div id="dashboard" class="page-view active">
-    <div class="main-head">
-      <h2>Home</h2>
+    <div id="dashboard" class="page-view active lobby-page">
+      <section class="lobby-shell">
+        <div class="lobby-stage-panel">
+          <div class="lobby-topline">
+            <div>
+              <span class="lobby-kicker">Dhamma Journey Lobby</span>
+              <h2>Selamat datang, <span id="lobbyPlayerName">Player</span></h2>
+              <p>Lotus Companion akan menemani perjalananmu di sini.</p>
+            </div>
+            <div class="lobby-wallet"><span><img class="coin-inline-icon" src="assets/coin-icon-user.png" alt=""> Coin</span><b id="lobbyCaishenBalance">0</b></div>
+          </div>
+          <div class="lobby-world">
+            <div class="lobby-temple-backdrop">
+              <span class="lobby-cloud c1"></span><span class="lobby-cloud c2"></span>
+              <span class="lobby-lotus l1">🪷</span><span class="lobby-lotus l2">🪷</span>
+            </div>
+
+            <div class="lobby-character-zone">
+              <div class="lobby-character-nameplate">
+                <b id="lobbyCharacterTitle">Karakter Pendamping</b>
+                <small id="lobbyCharacterMood">sedang memperhatikan sekeliling</small>
+              </div>
+              <div class="character-speech-bubble hidden" id="characterSpeechBubble" aria-live="polite"></div>
+              <div class="lobby-custom-character hidden" id="lobbyCustomCharacter">
+                <img id="lobbyCustomCharacterImg" alt="Karakter custom player">
+              </div>
+              <div class="living-character user-character" id="livingCharacter" data-gender="male" aria-label="Karakter awal Dhamma Journey">
+                <div class="user-character-stage">
+                  <div id="livingCharacterPuppet" class="user-character-puppet" role="button" tabindex="0" aria-label="Sentuh karakter untuk menyapa">
+                    <div class="dj-puppet-body-rig" aria-hidden="true">
+                      <img id="livingCharacterImg" class="user-character-img user-character-body" src="assets/starter-male-chibi-body-rig.png" alt="Karakter chibi laki-laki">
+                    </div>
+                    <div class="user-character-head-rig" aria-hidden="true">
+                      <img id="livingCharacterHeadImg" class="user-character-head-art" src="assets/starter-male-chibi-head-rig.png" alt="">
+                      <svg id="livingCharacterFace" class="user-character-face" viewBox="0 0 405 725" aria-hidden="true"></svg>
+                    </div>
+                    <div class="dj-face-effects" aria-hidden="true">
+                      <span class="dj-cheek dj-cheek-left"></span><span class="dj-cheek dj-cheek-right"></span>
+                      <span class="dj-reaction-spark">✨</span>
+                    </div>
+                    <span id="characterCostumeLayer" class="character-costume-layer" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <span class="living-gender-chip" id="livingGenderChip">Laki-laki</span>
+              </div>
+              <div class="monk-character costume-starter hidden" id="lobbyMonk" aria-label="Karakter fallback">
+                <div class="monk-shadow"></div>
+                <div class="monk-body">
+                  <div class="monk-robe-back"></div>
+                  <div class="monk-arm monk-arm-left"><span class="monk-hand"></span></div>
+                  <div class="monk-arm monk-arm-right"><span class="monk-hand"></span></div>
+                  <div class="monk-robe-front"><span class="monk-sash"></span><span class="monk-belt"></span></div>
+                </div>
+                <div class="monk-head"><div class="monk-face"><span class="monk-eye left"></span><span class="monk-eye right"></span><span class="monk-mouth"></span></div></div>
+              </div>
+              <div class="lobby-character-actions">
+                <button id="changeStarterCharacterBtn" type="button">🧑 Pilih Karakter</button>
+                <button id="monkWaveBtn" type="button">👋 Sapa</button>
+                <button id="monkMeditateBtn" type="button">🧘 Tenang</button>
+                <button id="openLobbyMarketBtn" type="button">🛍 Market Kostum</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <aside class="lobby-ai-panel">
+          <div class="lobby-ai-head">
+            <div class="ai-monk-mini">🪷</div>
+            <div><h3>Lotus Companion</h3><p id="lobbyAiMode">A calm friend in Dhamma Journey</p></div>
+            <button id="clearLobbyAi" type="button" title="Hapus percakapan">🗑</button>
+          </div>
+          <div class="lobby-ai-messages" id="lobbyAiMessages">
+            <div class="lobby-ai-empty">Halo. Kamu bisa bertanya atau bercerita di sini.</div>
+          </div>
+          <div class="lobby-ai-compose">
+            <textarea id="lobbyAiInput" maxlength="2500" placeholder="Tanya atau ceritakan sesuatu..."></textarea>
+            <button id="sendLobbyAi" type="button">Kirim</button>
+          </div>
+          <small class="lobby-ai-note">Lotus Companion adalah teman AI di dalam aplikasi Dhamma Journey.</small>
+        </aside>
+      </section>
+      <section class="lobby-market-panel" id="lobbyMarketPanel">
+        <div class="lobby-market-head">
+          <div><h3>🛍 Market Kostum</h3><p>Beli kostum menggunakan Coin, lalu pasang pada karakter aktifmu.</p></div>
+          <div class="market-head-actions">
+            <button class="admin-only mini-btn" id="openMarketAdmin" type="button">＋ Produk</button>
+            <button id="moreLobbyMarket" type="button">More</button>
+          </div>
+        </div>
+        <div id="lobbyMarketGrid" class="lobby-market-grid"><div class="page-empty">Memuat market...</div></div>
+      </section>
+      <section class="ai-knowledge-admin admin-only" id="aiKnowledgeAdmin">
+        <div class="ai-knowledge-head">
+          <div><h3>🪷 Data Jawaban Lotus Companion</h3><p>Admin/Owner dapat menambah, mengedit, menonaktifkan, atau menghapus jawaban karakter AI.</p></div>
+          <button id="newAiKnowledgeBtn" class="mini-btn" type="button">＋ Tambah Jawaban</button>
+        </div>
+        <div class="ai-knowledge-editor hidden" id="aiKnowledgeEditor">
+          <input id="aiKnowledgeId" type="hidden">
+          <div class="ai-knowledge-form-grid">
+            <label>Kategori<input id="aiKnowledgeCategory" type="text" placeholder="Contoh: Coin"></label>
+            <label>Pertanyaan / Judul<input id="aiKnowledgeQuestion" type="text" placeholder="Contoh: Bagaimana cara top up?"></label>
+            <label class="wide">Kata kunci<input id="aiKnowledgeKeywords" type="text" placeholder="coin, top up, saldo"></label>
+            <label class="wide">Jawaban<textarea id="aiKnowledgeAnswer" maxlength="3000" placeholder="Jawaban Lotus Companion..."></textarea></label>
+            <label>Status<select id="aiKnowledgeActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select></label>
+            <label>Urutan<input id="aiKnowledgeOrder" type="number" min="0" step="1" value="0"></label>
+          </div>
+          <div class="form-actions">
+            <button id="cancelAiKnowledge" class="ghost-btn" type="button">Batal</button>
+            <button id="saveAiKnowledge" class="red-btn" type="button">Simpan Jawaban</button>
+          </div>
+        </div>
+        <div id="aiKnowledgeList" class="ai-knowledge-list"><div class="page-empty">Memuat data jawaban...</div></div>
+      </section>
     </div>
 
+    <div id="market-more" class="page-view simple-page market-more-page">
+      <div class="page-toolbar">
+        <div><h2>Market Kostum</h2><p class="lead">Jelajahi semua produk untuk karakter Dhamma Journey.</p></div>
+        <button id="marketBackHome" class="ghost-btn" type="button">← Kembali</button>
+      </div>
+      <div class="market-browser-tools">
+        <input id="marketSearch" type="search" placeholder="Cari kostum...">
+        <select id="marketGenderFilter"><option value="all">Semua gender</option><option value="male">Cowo</option><option value="female">Cewe</option></select>
+        <select id="marketOwnershipFilter"><option value="all">Semua produk</option><option value="owned">Dimiliki</option><option value="not-owned">Belum dimiliki</option></select>
+      </div>
+      <div id="marketMoreGrid" class="lobby-market-grid market-more-grid"><div class="page-empty">Memuat market...</div></div>
+      <section class="market-admin-panel admin-only" id="marketAdminPanel">
+        <div class="market-admin-head"><div><h3>Kelola Produk Market</h3><p>Tambah, edit, hapus, dan aktif/nonaktifkan kostum.</p></div><button id="newMarketItem" class="mini-btn" type="button">＋ Tambah Produk</button></div>
+        <div id="marketAdminForm" class="market-admin-form hidden">
+          <input id="marketItemId" type="hidden">
+          <div class="market-admin-grid">
+            <label>Nama<input id="marketItemName" type="text"></label>
+            <label>SKU<input id="marketItemSku" type="text"></label>
+            <label>Kategori<input id="marketItemCategory" type="text" value="costume"></label>
+            <label>Harga Coin<input id="marketItemPrice" type="number" min="0" step="1" value="0"></label>
+            <label>Style Key<input id="marketItemStyleKey" type="text" placeholder="starter / forest / lotus"></label>
+            <label>Gender<select id="marketItemGender"><option value="all">Semua</option><option value="male">Cowo</option><option value="female">Cewe</option></select></label>
+            <label>Icon/Emoji<input id="marketItemEmoji" type="text" maxlength="8" placeholder="🪷"></label>
+            <label>Urutan<input id="marketItemOrder" type="number" min="0" step="1" value="0"></label>
+            <label class="wide">URL Gambar<input id="marketItemImageUrl" type="url" placeholder="https://..."></label>
+            <label class="wide">Deskripsi<textarea id="marketItemDescription"></textarea></label>
+            <label>Status<select id="marketItemActive"><option value="true">Aktif</option><option value="false">Nonaktif</option></select></label>
+          </div>
+          <div class="form-actions"><button id="cancelMarketItem" class="ghost-btn" type="button">Batal</button><button id="saveMarketItem" class="red-btn" type="button">Simpan Produk</button></div>
+        </div>
+        <div id="marketAdminList" class="market-admin-list"></div>
+      </section>
+    </div>
+    <div id="tutorial" class="page-view video-hub-page">
+    <div class="main-head">
+      <h2>Video</h2>
+    </div>
     <section class="player" id="mainPlayer">
       <div class="buddhist-hero-art"><img src="assets/guanyin-trio.png" alt="Dewi Kwan Im"></div>
       <div class="media-layer" id="mediaLayer"></div>
@@ -74,12 +226,24 @@
         <div class="track" id="playerTrack"><span id="playerProgress"></span></div>
         <div class="player-actions">
           <button class="control-icon" id="volumeBtn" type="button" title="Suara">🔊</button>
+          <button class="control-icon content-like-btn" id="videoLikeBtn" type="button" title="Suka video" aria-pressed="false">♡</button>
+          <button class="control-icon content-playlist-btn" id="videoPlaylistBtn" type="button" title="Tambah ke playlist" aria-pressed="false">＋</button>
           <div class="settings-wrap">
             <button class="control-icon" id="settingsBtn" type="button" title="Pengaturan">⚙</button>
             <div class="settings-menu" id="settingsMenu">
               <div class="settings-title">Pengaturan Video</div>
               <label class="settings-row">
-                <span>Resolusi</span>
+                <span>Volume</span>
+                <input id="volumeRange" type="range" min="0" max="100" value="100">
+              </label>
+              <label class="settings-row">
+                <span>Kecepatan</span>
+                <select id="playbackRateSelect">
+                  <option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option>
+                </select>
+              </label>
+              <label class="settings-row">
+                <span>Kualitas</span>
                 <select id="resolutionSelect">
                   <option>Auto</option><option>1080p</option><option>720p</option><option>480p</option><option>360p</option>
                 </select>
@@ -93,7 +257,6 @@
         </div>
       </div>
     </section>
-
     <section class="related">
       <div class="related-head">
         <h3>🔥 Video Populer</h3>
@@ -101,9 +264,18 @@
       </div>
       <div class="scroller" id="scroller"></div>
     </section>
+    <section class="video-comments-section" id="videoCommentsSection">
+      <div class="comments-head">
+        <div><h3>💬 Komentar Video</h3><p id="commentVideoLabel">Diskusi untuk video aktif.</p></div>
+        <span class="comment-count" id="commentCount">0</span>
+      </div>
+      <div class="comment-compose">
+        <textarea id="commentInput" maxlength="1200" placeholder="Tulis komentar yang sopan dan relevan..."></textarea>
+        <button id="sendCommentBtn" type="button">Kirim Komentar</button>
+      </div>
+      <div class="comment-list" id="commentList"><div class="comment-empty">Belum ada komentar.</div></div>
+    </section>
     </div>
-
-    <div id="tutorial" class="page-view simple-page"><h2>Video</h2><p class="lead">Pilih video Dhamma. Setiap video dapat memiliki materi tertulis pendamping.</p><div class="content-grid"><div class="content-box"><h3>Manajemen Data</h3><p>Panduan mengelola data pada PNG Dashboard.</p></div><div class="content-box"><h3>Pengaturan Akun</h3><p>Panduan pengaturan profil dan akun.</p></div><div class="content-box"><h3>Keamanan Data</h3><p>Materi dasar menjaga keamanan data.</p></div><div class="content-box"><h3>Backup & Restore</h3><p>Panduan pencadangan dan pemulihan data.</p></div></div></div>
     <div id="faq" class="page-view simple-page"><div class="admin-split"><section><h2>FAQ</h2><p class="lead">Pertanyaan yang sering ditanyakan.</p><div id="faqList" class="doc-list"></div></section><aside class="admin-side"><div class="nezha-brand faq-buddha-brand"><img src="assets/faq-buddha.jpg" alt="Buddha"></div><div class="admin-card"><h3>Tambah FAQ</h3><p>Tambahkan pertanyaan dan jawaban baru.</p><button class="admin-add admin-only" id="openFaqForm" type="button">＋ Tambah FAQ</button><div class="form-panel" id="faqForm"><input id="faqQuestion" placeholder="Pertanyaan"><textarea id="faqAnswer" placeholder="Jawaban FAQ"></textarea><textarea id="faqImportantNote" placeholder="Catatan penting (opsional)"></textarea><div class="form-actions"><button class="ghost-btn" id="cancelFaq" type="button">Batal</button><button class="red-btn" id="saveFaq" type="button">Simpan</button></div></div></div></aside></div></div>
     <div id="game" class="page-view simple-page">
       <div class="admin-split">
@@ -113,7 +285,7 @@
           <div id="gameList" class="game-grid"></div>
         </section>
         <aside class="admin-side">
-          <div class="game-side-art"><img src="assets/thumb-target-3.jpg" alt="Temple"></div>
+          <div class="game-side-art maitreya-side-art"><img src="assets/maitreya-game-user.png" alt="Buddha Maitreya"></div>
           <div class="admin-card">
             <h3>Tambah Game</h3>
             <p>Admin dapat menambahkan game dan memilih kategorinya.</p>
@@ -129,7 +301,7 @@
                 <option>Other</option>
               </select>
               <textarea id="gameDescription" placeholder="Deskripsi game"></textarea>
-              <input id="gameThumbnailUrl" type="url" placeholder="URL thumbnail game (opsional)">
+              <input id="gameThumbnailUrl" type="url" placeholder="URL thumbnail game (opsional)"><input id="gameThumbnailFile" type="file" accept="image/png,image/jpeg,image/webp">
               <input id="gameUrl" type="url" placeholder="URL / halaman game">
               <select id="gameStatus">
                 <option value="coming_soon">Coming Soon</option>
@@ -145,7 +317,6 @@
         </aside>
       </div>
     </div>
-
     <div id="kategori" class="page-view simple-page">
       <h2>Kategori Game</h2>
       <p class="lead">Pilih jenis game yang ingin dimainkan.</p>
@@ -160,7 +331,6 @@
         </div>
         <button class="admin-add" id="refreshFriends" type="button">⟳ Refresh</button>
       </div>
-
       <section class="friend-identity-card">
         <div>
           <small>ID Teman Saya</small>
@@ -169,7 +339,6 @@
         </div>
         <button id="copyFriendCode" class="red-btn" type="button">Salin ID</button>
       </section>
-
       <section class="friend-search-card">
         <h3>Cari Teman</h3>
         <div class="friend-search-row">
@@ -178,7 +347,6 @@
         </div>
         <div id="friendSearchResult" class="friend-search-result"></div>
       </section>
-
       <div class="friends-two-col">
         <section>
           <div class="section-mini-head"><h3>Permintaan Pertemanan</h3><span id="incomingFriendCount">0</span></div>
@@ -189,17 +357,69 @@
           <div id="onlineFriendList" class="friend-list"></div>
         </section>
       </div>
-
       <section>
         <div class="section-mini-head"><h3>Semua Teman</h3><span id="allFriendCount">0</span></div>
         <div id="allFriendList" class="friend-grid"></div>
       </section>
     </div>
 
+    <div id="chat" class="page-view simple-page chat-page">
+      <div class="page-toolbar">
+        <div>
+          <h2>Chat Player</h2>
+          <p class="lead">Global untuk semua player, Private untuk percakapan dengan teman.</p>
+        </div>
+        <span class="chat-online-badge" id="chatModeBadge">Global</span>
+      </div>
+      <div class="chat-shell">
+        <aside class="chat-sidebar">
+          <button id="openGlobalChat" class="chat-global-button active" type="button">
+            <span>🌏</span><span><b>Global Chat</b><small>Semua player</small></span>
+          </button>
+          <div class="chat-side-title"><b>Private Chat</b><small>Teman yang sudah diterima</small></div>
+          <div id="privateChatFriendList" class="private-chat-friend-list">
+            <div class="chat-empty">Memuat teman...</div>
+          </div>
+        </aside>
+        <section class="chat-conversation">
+          <div class="chat-conversation-head">
+            <div class="chat-room-avatar" id="chatRoomAvatar">🌏</div>
+            <div>
+              <h3 id="chatRoomTitle">Global Chat</h3>
+              <p id="chatRoomSubtitle">Semua player Dhamma Journey</p>
+            </div>
+          </div>
+          <div id="chatMessageList" class="chat-message-list">
+            <div class="chat-empty">Belum ada pesan.</div>
+          </div>
+          <div class="chat-compose">
+            <div class="chat-compose-input">
+              <textarea id="chatMessageInput" maxlength="1200" placeholder="Tulis pesan..."></textarea>
+              <button id="emojiPickerBtn" class="emoji-picker-btn" type="button" title="Emoji">😊</button>
+              <div id="emojiPicker" class="emoji-picker hidden" aria-hidden="true"></div>
+            </div>
+            <button id="sendChatMessage" type="button">Kirim</button>
+          </div>
+        </section>
+      </div>
+    </div>
     <div id="favorit" class="page-view simple-page"><h2>Favorit</h2><p class="lead">Tutorial yang kamu simpan akan tampil di sini.</p><div class="content-box"><h3>Belum ada favorit</h3><p>Nanti kita bisa tambahkan tombol bintang pada setiap tutorial.</p></div></div>
     <div id="riwayat" class="page-view simple-page"><h2>Riwayat</h2><p class="lead">Daftar tutorial yang terakhir dibuka.</p><div class="content-box"><h3>Manajemen Data</h3><p>Terakhir dilihat • 7 menit 12 detik</p></div></div>
     <div id="playlist" class="page-view simple-page"><h2>Playlist Saya</h2><p class="lead">Kumpulan tutorial pilihanmu.</p><div class="content-box"><h3>Playlist masih kosong</h3><p>Nanti tutorial bisa ditambahkan ke playlist dari halaman video.</p></div></div>
 
+    <div id="material-video-picker" class="page-view simple-page material-video-picker-page">
+      <div class="page-toolbar">
+        <div>
+          <h2>Pilih Video untuk Materi</h2>
+          <p class="lead">Pilih video induk terlebih dahulu, setelah itu baru isi materi dan audio.</p>
+        </div>
+        <button class="ghost-btn" id="materialPickerBack" type="button">Kembali</button>
+      </div>
+      <div class="material-picker-search">
+        <input id="materialPickerSearch" type="search" placeholder="Cari judul video atau kategori...">
+      </div>
+      <div id="materialVideoPickerGrid" class="material-video-picker-grid"></div>
+    </div>
     <div id="materials-library" class="page-view simple-page">
       <div class="page-toolbar">
         <div>
@@ -210,9 +430,44 @@
       </div>
       <div id="materialLibraryGrid" class="material-library-grid"></div>
     </div>
-
-    <div id="materi-detail" class="page-view simple-page article-page"><div class="content-page-head"><button class="content-back" id="materialDetailBack" type="button">←</button><div><h2>Materi Video</h2><p class="lead" id="materialDetailVideo">Materi tertulis untuk video aktif.</p></div></div><article class="article-card"><span class="preview-category" id="materialDetailCategory">Materi</span><h1 id="materialDetailTitle">Belum ada materi</h1><p class="article-summary" id="materialDetailSummary"></p><div class="material-audio-box" id="materialAudioBox"><div><b>♫ Audio Materi</b><small id="materialAudioLabel">Dengarkan sambil membaca materi.</small></div><audio id="materialAudioPlayer" controls preload="metadata"></audio></div><div class="preview-divider"></div><div class="article-body" id="materialDetailBody">Tambahkan materi dari dashboard.</div><div class="article-material-nav" id="materialDetailNav"></div></article></div>
-
+    <div id="materi-detail" class="page-view simple-page article-page material-player-page">
+      <div class="content-page-head">
+        <button class="content-back" id="materialDetailBack" type="button">←</button>
+        <div><h2>Materi + Audio</h2><p class="lead" id="materialDetailVideo">Materi tertulis untuk video aktif.</p></div>
+        <div class="material-detail-admin admin-only">
+          <button class="mini-btn" id="detailEditMaterialBtn" type="button">✏ Edit</button>
+          <button class="mini-btn" id="detailEditAudioBtn" type="button">♫ Audio</button>
+          <button class="mini-btn danger" id="detailDeleteMaterialBtn" type="button">🗑 Hapus</button>
+        </div>
+      </div>
+      <section class="spotify-material-shell">
+        <div class="spotify-material-hero">
+          <div class="spotify-cover-wrap"><img id="materialDetailCover" src="assets/lotus-heading-target.jpg" alt="Cover materi"></div>
+          <div class="spotify-material-meta">
+            <span class="preview-category" id="materialDetailCategory">Materi</span>
+            <h1 id="materialDetailTitle">Belum ada materi</h1>
+            <p class="article-summary" id="materialDetailSummary"></p>
+            <div class="spotify-action-row">
+              <button id="materialLikeBtn" class="content-state-btn like" type="button" aria-pressed="false">♡ Suka</button>
+              <button id="materialPlaylistBtn" class="content-state-btn playlist" type="button" aria-pressed="false">＋ Playlist</button>
+            </div>
+          </div>
+        </div>
+        <div class="spotify-material-player" id="materialAudioBox">
+          <div class="spotify-player-title"><b>♫ Audio Materi</b><small id="materialAudioLabel">Dengarkan sambil membaca.</small></div>
+          <audio id="materialAudioPlayer" controls preload="metadata"></audio>
+          <div class="spotify-action-row audio-actions">
+            <button id="audioLikeBtn" class="content-state-btn like" type="button" aria-pressed="false">♡ Suka Audio</button>
+            <button id="audioPlaylistBtn" class="content-state-btn playlist" type="button" aria-pressed="false">＋ Playlist Audio</button>
+          </div>
+        </div>
+        <div class="spotify-lyrics-panel">
+          <div class="lyrics-head"><span>Lyrics / Materi</span><small>Baca sambil audio diputar</small></div>
+          <div class="article-body spotify-lyrics" id="materialDetailBody">Tambahkan materi dari dashboard.</div>
+        </div>
+        <div class="article-material-nav" id="materialDetailNav"></div>
+      </section>
+    </div>
     <div id="tambah-konten" class="page-view simple-page"><div class="admin-lock-note">Halaman ini khusus admin. Login sebagai admin untuk menambah atau mengubah konten.</div>
       <div class="content-page-head">
         <button class="content-back" id="contentBack" type="button">←</button>
@@ -222,13 +477,13 @@
         <button class="content-tab active" data-content-tab="video" type="button">1. Video</button>
         <button class="content-tab" data-content-tab="materi" type="button">2. Materi</button>
       </div>
-
       <div id="tab-materi" class="content-tab-page">
         <div class="content-editor-layout">
           <section class="content-editor-box">
             <h3>Informasi Materi</h3><div class="video-edit-note" id="materialEditNote">✏Mode Edit Materi — perubahan akan mengganti sub materi yang dipilih.</div><div class="editor-field"><label>Video Induk <b>*</b></label><select id="materialParentVideo"><option value="">Pilih video untuk sub materi</option></select></div>
             <div class="editor-field"><label>Judul Materi <b>*</b></label><input id="materialPageTitle" type="text" placeholder="Masukkan judul materi"></div>
-            <div class="editor-field"><label>Kategori <b>*</b></label><select id="materialPageCategory"><option value="">Pilih kategori</option></select></div>
+            <div class="editor-field"><label>Kategori <b>*</b></label><select id="materialPageCategory"><option value="">Pilih kategori</option></select></div><div class="editor-field"><label>Cover Materi</label><input id="materialCoverUrl" type="url" placeholder="URL cover gambar (opsional)"></div>
+            <div class="editor-field"><label>Atau Upload Cover</label><input id="materialCoverFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
             <div class="editor-field"><label>Peringatan</label><textarea id="materialSummary" class="small-textarea" placeholder="Tuliskan pesan peringatan..."></textarea></div>
             <div class="editor-field"><label>Isi Materi <b>*</b></label><div class="text-toolbar"><button type="button"><b>B</b></button><button type="button"><i>I</i></button><button type="button"><u>U</u></button><button type="button">☷</button><button type="button">🔗</button></div><textarea id="materialContent" class="material-textarea" placeholder="Tulis materi lengkap di sini..."></textarea></div>
             <div class="editor-field"><label>Audio Materi</label><input id="materialAudioUrl" type="url" placeholder="URL MP3 / audio (opsional)"></div>
@@ -242,7 +497,6 @@
         </div>
         <div class="content-save-bar"><button class="content-cancel" id="cancelMaterial" type="button">Batal</button><button class="content-save" id="saveMaterial" type="button">▣ &nbsp; Simpan Materi</button></div>
       </div>
-
       <div id="tab-video" class="content-tab-page active">
         <div class="video-editor-layout">
           <section class="content-editor-box">
@@ -277,11 +531,264 @@
       </div>
     </div>
 
+    <div id="caishen" class="page-view simple-page caishen-page">
+      <div class="page-toolbar">
+        <div>
+          <h2><img class="coin-heading-icon" src="assets/coin-icon-user.png" alt=""> Coin</h2>
+          <p class="lead">Saldo untuk request karakter custom dan fitur berbayar Dhamma Journey.</p>
+        </div>
+        <div class="caishen-balance-pill"><img class="balance-ingot-img" src="assets/coin-ingot-user.png" alt=""><span>Saldo</span><b id="caishenBalance">0</b><small>Coin</small></div>
+      </div>
+      <div class="caishen-grid">
+        <section class="caishen-card">
+          <div class="caishen-card-head"><div><h3>Top Up Coin</h3><p>Transfer melalui e-wallet atau bank, lalu upload bukti pembayaran.</p></div><span>💰</span></div>
+          <label>Metode pembayaran</label>
+          <select id="topupPaymentMethod"><option value="">Pilih e-wallet / bank</option></select>
+          <div id="topupPaymentDestination" class="payment-destination">Owner belum menambahkan metode pembayaran.</div>
+          <label>Nominal top up (Rupiah)</label>
+          <input id="topupAmountIdr" type="number" min="1000" step="1000" placeholder="Contoh: 50000">
+          <div class="caishen-estimate">Perkiraan: <b id="topupCoinEstimate">0 Coin</b></div>
+          <label>Bukti pembayaran</label>
+          <input id="topupProofFile" type="file" accept="image/png,image/jpeg,image/webp">
+          <button id="submitTopupBtn" class="red-btn" type="button">Kirim Request Top Up</button>
+          <div id="topupStatus" class="auth-status" role="status"></div>
+        </section>
+        <section class="caishen-card">
+          <div class="caishen-card-head"><div><h3>Karakter Custom</h3><p>Request karakter berdasarkan foto referensi yang kamu upload.</p></div><span>🎨</span></div>
+          <div class="character-price-box">Harga request: <b id="caishenCharacterCost">100 Coin</b></div>
+          <label>Foto referensi</label>
+          <input id="characterReferenceFile" type="file" accept="image/png,image/jpeg,image/webp">
+          <label>Catatan desain</label>
+          <textarea id="characterRequestNotes" maxlength="1200" placeholder="Contoh: pakaian, ekspresi, aksesori, gaya karakter..."></textarea>
+          <button id="submitCharacterRequestBtn" class="red-btn" type="button">Request Karakter</button>
+          <div id="characterRequestStatus" class="auth-status" role="status"></div>
+        </section>
+      </div>
+      <div class="caishen-history-grid">
+        <section class="caishen-card">
+          <h3>Riwayat Saldo</h3>
+          <div id="walletTransactionList" class="economy-list"><div class="page-empty">Belum ada transaksi.</div></div>
+        </section>
+        <section class="caishen-card">
+          <h3>Request Saya</h3>
+          <div id="myEconomyRequestList" class="economy-list"><div class="page-empty">Belum ada request.</div></div>
+        </section>
+      </div>
+      <section class="caishen-owner-admin owner-only" id="caishenOwnerAdmin">
+        <div class="owner-economy-title">
+          <div><h3>Owner — Coin & Keuangan</h3><p>Tinjau uang masuk, tentukan Coin yang diberikan, kelola akun test, dan pantau pemasukan/pengeluaran.</p></div>
+          <button id="refreshCaishenAdmin" class="ghost-btn" type="button">Refresh</button>
+        </div>
+        <div class="owner-economy-grid">
+          <div class="caishen-card">
+            <h4>Harga & Minimum</h4>
+            <label>Harga karakter (Coin)</label>
+            <input id="ownerCharacterCost" type="number" min="1" step="1">
+            <label>Minimum top up (Rp)</label>
+            <input id="ownerMinTopup" type="number" min="1000" step="1000">
+            <button id="saveEconomyConfig" class="red-btn" type="button">Simpan Pengaturan</button>
+          </div>
+          <div class="caishen-card">
+            <h4>Tambah Bank / E-Wallet</h4>
+            <select id="paymentMethodType"><option value="ewallet">E-Wallet</option><option value="bank">Bank</option></select>
+            <input id="paymentProviderName" type="text" placeholder="DANA / OVO / BCA / Mandiri...">
+            <input id="paymentAccountName" type="text" placeholder="Nama pemilik rekening">
+            <input id="paymentAccountNumber" type="text" placeholder="Nomor rekening / nomor e-wallet">
+            <input id="paymentIdrPerCoin" type="number" min="1" step="1" value="1000" placeholder="Rupiah per 1 Coin">
+            <button id="savePaymentMethod" class="red-btn" type="button">Tambah Metode</button>
+          </div>
+        </div>
+
+        <section class="owner-finance-dashboard">
+          <div class="finance-summary-grid">
+            <article class="finance-summary-card income">
+              <span>Uang Masuk</span><b id="financeCashIncome">Rp0</b><small>Semua pemasukan tercatat</small>
+            </article>
+            <article class="finance-summary-card expense">
+              <span>Uang Keluar</span><b id="financeCashExpense">Rp0</b><small>Pengeluaran operasional</small>
+            </article>
+            <article class="finance-summary-card balance">
+              <span>Saldo Kas</span><b id="financeCashBalance">Rp0</b><small>Pemasukan dikurangi pengeluaran</small>
+            </article>
+            <article class="finance-summary-card coin">
+              <span>Coin dari Top Up</span><b id="financePaidCoins">0</b><small>Coin yang dibayar player</small>
+            </article>
+            <article class="finance-summary-card grant">
+              <span>Coin Gratis Owner</span><b id="financeGrantedCoins">0</b><small>Test / bonus / hadiah</small>
+            </article>
+            <article class="finance-summary-card wallet">
+              <span>Saldo Coin Player</span><b id="financeWalletCoins">0</b><small>Total Coin yang masih beredar</small>
+            </article>
+          </div>
+          <div class="finance-reconcile-card">
+            <div>
+              <h4>Rekonsiliasi Uang ↔ Coin</h4>
+              <p>Memisahkan Coin berbayar dari Coin gratis agar pemasukan tidak tercampur dengan akun test.</p>
+            </div>
+            <div class="finance-reconcile-values">
+              <span>Top Up disetujui <b id="financeApprovedTopupMoney">Rp0</b></span>
+              <span>Coin top up <b id="financeApprovedTopupCoins">0</b></span>
+              <span>Rata-rata aktual <b id="financeEffectiveRate">Rp0 / Coin</b></span>
+              <span>Coin terpakai <b id="financeSpentCoins">0</b></span>
+              <span>Coin refund <b id="financeRefundedCoins">0</b></span>
+            </div>
+          </div>
+        </section>
+        <div class="owner-finance-actions-grid">
+          <section class="caishen-card owner-grant-card">
+            <h4>Berikan Coin ke Akun</h4>
+            <p class="owner-finance-note">Untuk akun test, bonus, hadiah, atau penyesuaian. Tidak dihitung sebagai uang masuk.</p>
+            <label>Pilih akun</label>
+            <select id="ownerGrantAccount"><option value="">Pilih akun player</option></select>
+            <div id="ownerGrantAccountInfo" class="finance-account-info">Pilih akun untuk melihat saldo saat ini.</div>
+            <label>Jumlah Coin</label>
+            <input id="ownerGrantCoins" type="number" min="1" step="1" placeholder="Contoh: 1000">
+            <label>Catatan</label>
+            <input id="ownerGrantNote" type="text" maxlength="300" placeholder="Contoh: akun test / bonus event">
+            <button id="ownerGrantCoinsBtn" class="red-btn" type="button">Tambahkan Coin</button>
+            <div id="ownerGrantStatus" class="auth-status" role="status"></div>
+          </section>
+          <section class="caishen-card owner-cash-entry-card">
+            <h4>Catat Pemasukan / Pengeluaran</h4>
+            <p class="owner-finance-note">Top up yang disetujui masuk otomatis. Form ini untuk transaksi kas lain.</p>
+            <label>Jenis</label>
+            <select id="ownerCashDirection">
+              <option value="income">Pemasukan</option>
+              <option value="expense">Pengeluaran</option>
+            </select>
+            <label>Nominal Rupiah</label>
+            <input id="ownerCashAmount" type="number" min="1" step="1000" placeholder="Contoh: 25000">
+            <label>Kategori</label>
+            <select id="ownerCashCategory">
+              <option value="manual_income">Pemasukan lain</option>
+              <option value="operational">Operasional</option>
+              <option value="bank_fee">Biaya bank / admin</option>
+              <option value="refund_cash">Refund uang</option>
+              <option value="marketing">Marketing</option>
+              <option value="other">Lainnya</option>
+            </select>
+            <label>Rincian</label>
+            <input id="ownerCashNote" type="text" maxlength="500" placeholder="Keterangan transaksi">
+            <button id="ownerAddCashEntryBtn" class="red-btn" type="button">Simpan Transaksi</button>
+            <div id="ownerCashStatus" class="auth-status" role="status"></div>
+          </section>
+        </div>
+        <div class="caishen-card">
+          <h4>Metode Pembayaran Aktif</h4>
+          <div id="ownerPaymentMethodList" class="economy-list"></div>
+        </div>
+        <div class="caishen-card">
+          <h4>Request Top Up</h4>
+          <div id="ownerTopupList" class="economy-list"></div>
+        </div>
+
+        <div class="owner-finance-ledger-grid">
+          <section class="caishen-card">
+            <div class="finance-ledger-head"><div><h4>Rincian Uang</h4><p>Pemasukan dan pengeluaran Rupiah.</p></div><button id="refreshCashLedger" class="mini-btn" type="button">Refresh</button></div>
+            <div id="ownerCashLedgerList" class="finance-ledger-list"><div class="page-empty">Belum dimuat.</div></div>
+          </section>
+          <section class="caishen-card">
+            <div class="finance-ledger-head"><div><h4>Rincian Coin</h4><p>Top up, grant Owner, pembelian, dan refund.</p></div><button id="refreshCoinLedger" class="mini-btn" type="button">Refresh</button></div>
+            <div id="ownerCoinLedgerList" class="finance-ledger-list"><div class="page-empty">Belum dimuat.</div></div>
+          </section>
+        </div>
+        <div class="caishen-card">
+          <h4>Request Karakter</h4>
+          <div id="ownerCharacterRequestList" class="economy-list"></div>
+        </div>
+      </section>
+    </div>
+    <div id="settings" class="page-view simple-page settings-page">
+      <div class="page-toolbar">
+        <div><h2>Pengaturan</h2><p class="lead">Atur tema, akun, keamanan, notifikasi, dan tampilan Dhamma Journey.</p></div>
+        <span class="settings-saved-badge" id="settingsSavedBadge">Tersimpan otomatis</span>
+      </div>
+      <div class="settings-shell">
+        <aside class="settings-nav">
+          <button class="active" data-settings-tab="theme" type="button">🎨 Tema</button>
+          <button data-settings-tab="account" type="button">👤 Akun</button>
+          <button data-settings-tab="security" type="button">🔐 Keamanan</button>
+          <button data-settings-tab="notifications" type="button">🔔 Notifikasi</button>
+          <button data-settings-tab="appearance" type="button">🖥 Tampilan</button>
+        </aside>
+        <section class="settings-content">
+          <div class="settings-tab-panel active" id="settings-theme">
+            <h3>Tema Aplikasi</h3>
+            <p>Pilih tampilan yang paling nyaman.</p>
+            <div class="theme-grid">
+              <button class="theme-card" data-theme-choice="gold" type="button"><span class="theme-preview gold"></span><b>Dhamma Gold</b><small>Tema utama krem dan emas.</small></button>
+              <button class="theme-card" data-theme-choice="lotus" type="button"><span class="theme-preview lotus"></span><b>Lotus Soft</b><small>Lembut dengan aksen merah muda.</small></button>
+              <button class="theme-card" data-theme-choice="night" type="button"><span class="theme-preview night"></span><b>Night Temple</b><small>Gelap untuk malam hari.</small></button>
+            </div>
+          </div>
+          <div class="settings-tab-panel" id="settings-account">
+            <h3>Profil & Username</h3>
+            <div class="profile-settings-grid">
+              <div class="profile-avatar-editor">
+                <div class="profile-avatar-preview" id="profileAvatarPreview">👤</div>
+                <label class="avatar-upload-btn" for="profileAvatarFile">Ganti Foto Profil</label>
+                <input id="profileAvatarFile" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+                <small>PNG, JPG, atau WEBP. Maks. 5 MB.</small>
+              </div>
+              <div class="settings-form">
+                <label>Username</label>
+                <input id="settingsUsername" type="text" maxlength="40" placeholder="Nama yang tampil">
+                <label>Email</label>
+                <input id="settingsEmail" type="email" readonly>
+                <div class="settings-form-actions">
+                  <button id="saveProfileSettings" class="red-btn" type="button">Simpan Profil</button>
+                  <button id="openLinkedAccounts" class="ghost-btn" type="button">Hubungkan Akun</button>
+                </div>
+                <div id="profileSettingsStatus" class="auth-status" role="status"></div>
+              </div>
+            </div>
+          </div>
+          <div class="settings-tab-panel" id="settings-security">
+            <h3>Keamanan</h3>
+            <div class="settings-form security-grid">
+              <div class="settings-block">
+                <h4>Ganti Password</h4>
+                <label>Password baru</label>
+                <input id="newPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Minimal 6 karakter">
+                <label>Ulangi password baru</label>
+                <input id="confirmNewPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Ulangi password">
+                <button id="changePasswordBtn" class="red-btn" type="button">Ganti Password</button>
+              </div>
+              <div class="settings-block">
+                <h4>Lupa Password</h4>
+                <p>Kirim tautan pemulihan ke email akun.</p>
+                <input id="recoveryEmail" type="email" placeholder="email@contoh.com">
+                <button id="sendRecoveryBtn" class="ghost-btn" type="button">Kirim Email Reset</button>
+              </div>
+            </div>
+            <div id="securitySettingsStatus" class="auth-status" role="status"></div>
+          </div>
+          <div class="settings-tab-panel" id="settings-notifications">
+            <h3>Notifikasi</h3>
+            <div class="toggle-list">
+              <label class="toggle-row"><span><b>Semua notifikasi</b><small>Aktifkan atau matikan notifikasi aplikasi.</small></span><input id="notifMaster" type="checkbox"></label>
+              <label class="toggle-row"><span><b>Pertemanan</b><small>Permintaan dan aktivitas teman.</small></span><input id="notifFriends" type="checkbox"></label>
+              <label class="toggle-row"><span><b>Konten baru</b><small>Video, materi, dan game baru.</small></span><input id="notifContent" type="checkbox"></label>
+              <label class="toggle-row owner-setting"><span><b>Complain</b><small>Notifikasi complain baru untuk Owner.</small></span><input id="notifComplaints" type="checkbox"></label>
+              <label class="toggle-row"><span><b>Suara notifikasi</b><small>Putar bunyi ringan saat ada pemberitahuan.</small></span><input id="notifSound" type="checkbox"></label>
+              <label class="settings-select-row"><span><b>Jenis suara notifikasi</b><small>Pilih bunyi notifikasi yang kamu suka.</small></span><div class="settings-inline-controls"><select id="notifSoundType"><option value="bell">Bell</option><option value="chime">Chime</option><option value="wood">Wood</option><option value="lotus">Lotus</option><option value="soft">Soft</option></select><button id="previewNotifSound" class="ghost-btn tiny-btn" type="button">Coba</button></div></label>
+            </div>
+          </div>
+          <div class="settings-tab-panel" id="settings-appearance">
+            <h3>Tampilan</h3>
+            <div class="toggle-list">
+              <label class="toggle-row"><span><b>Mode ringkas</b><small>Kurangi jarak antar elemen.</small></span><input id="compactMode" type="checkbox"></label>
+              <label class="settings-select-row"><span><b>Ukuran teks</b><small>Atur skala teks aplikasi.</small></span><select id="fontScale"><option value="small">Kecil</option><option value="normal">Normal</option><option value="large">Besar</option></select></label>
+              <label class="toggle-row"><span><b>Sembunyikan kolom complain</b><small>Sembunyikan tombol complain melayang di kanan bawah.</small></span><input id="hideComplaintHelper" type="checkbox"></label>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
     <div id="pengguna" class="page-view simple-page">
       <div class="page-toolbar"><div><h2>Account</h2><p class="lead" style="margin:4px 0 0">Hanya pemilik dashboard yang dapat memberi atau mencabut izin admin.</p></div></div>
       <div class="content-box"><h3>Akun terdaftar</h3><p>Akun pengguna aktif setelah verifikasi email atau login sosial. Tidak perlu persetujuan Admin/Owner. Owner tetap dapat memberikan atau mencabut role Admin.</p><div id="userAdminList" class="user-admin-list"></div></div>
     </div>
-
     <div id="activity-log" class="page-view simple-page">
       <div class="page-toolbar">
         <div><h2>Log Aktivitas Pemain</h2><p class="lead" style="margin:4px 0 0">Ringkasan hanya menampilkan nama pemain dan email. Klik pemain untuk melihat detail log.</p></div>
@@ -289,7 +796,6 @@
       </div>
       <div id="activityLogList" class="doc-list"><div class="page-empty">Memuat log...</div></div>
     </div>
-
     <div id="complaints" class="page-view simple-page owner-only">
       <div class="page-toolbar">
         <div><h2>Complain Pengguna</h2><p class="lead">Khusus Owner — pesan complain yang dikirim pengguna.</p></div>
@@ -297,9 +803,7 @@
       </div>
       <div id="complaintList" class="doc-list"><div class="page-empty">Belum dimuat.</div></div>
     </div>
-
   </main>
-
   <aside class="info">
     <h2 class="info-heading"><span class="info-heading-lotus" aria-hidden="true"></span>Informasi Bacaan</h2>
     <div class="info-top">
@@ -317,15 +821,13 @@
       <div class="label">🗓 Tanggal Upload</div><div>10 Jan 2025</div>
       <div class="label">👤 Oleh</div><div>Tim Dhamma Journey</div>
     </div>
-    <h3>📋 Materi yang Dibahas</h3>
+    <h3>📋 Materi Tertulis Lengkap</h3>
     <div class="topics material-list-mini" id="activeMaterialList"></div>
-    <button class="material-more" id="openMaterialDetail" type="button">Selengkapnya</button>
+    <button class="material-more hidden" id="openMaterialDetail" type="button">Selengkapnya</button>
     <button class="download admin-only" id="addMaterialBtn" type="button">＋ &nbsp; Tambahkan materi</button>
   </aside>
 </div>
-
 <footer>© 2026 <b>Dhamma Journey</b>. Semua hak dilindungi.</footer>
-
 
 <div class="auth-modal" id="authModal" aria-hidden="true">
   <div class="auth-card">
@@ -336,7 +838,7 @@
     <div id="authForm">
       <input id="adminEmail" type="email" autocomplete="username" placeholder="Email">
       <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Password">
-      <div class="auth-actions"><button class="ghost-btn" id="closeAuth" type="button">Batal</button><button class="red-btn" id="doLogin" type="button">Login</button></div>
+      <div class="auth-actions"><button class="ghost-btn" id="closeAuth" type="button">Batal</button><button class="red-btn" id="doLogin" type="button">Login</button></div><button class="forgot-password-btn" id="forgotPasswordBtn" type="button">Lupa sandi?</button>
       <div class="social-divider"><span>atau lanjutkan dengan</span></div>
       <div class="social-login-grid auth-method-grid">
         <button class="social-login instagram" data-provider="custom:instagram" data-provider-label="Instagram" type="button">◎&nbsp; Instagram</button>
@@ -361,55 +863,136 @@
     <div class="sync-badge local" id="syncBadge">Mode lokal / Supabase belum dihubungkan</div>
   </div>
 </div>
-
 <div class="auth-modal account-connect-modal" id="accountConnectModal" aria-hidden="true">
-  <div class="auth-card account-connect-card">
-    <div class="account-connect-head">
+  <div class="auth-card account-connect-card profile-hub-card">
+    <div class="account-connect-head profile-hub-head">
       <div>
-        <h3>Akun Dhamma Journey</h3>
+        <h3>Profil Dhamma Journey</h3>
         <p id="accountConnectEmail">-</p>
       </div>
       <button id="closeAccountConnect" class="ghost-btn" type="button">Tutup</button>
     </div>
-    <h4>Hubungkan Akun</h4>
-    <p class="account-connect-note">Kamu bisa menghubungkan akun lain agar punya lebih dari satu cara untuk masuk.</p>
-    <div id="linkedIdentityList" class="linked-identity-list"></div>
-    <div class="connect-provider-grid">
-      <button class="connect-provider instagram" data-link-provider="custom:instagram" data-provider-label="Instagram" type="button">◎ Instagram</button>
-      <button class="connect-provider facebook" data-link-provider="facebook" data-provider-label="Facebook" type="button">f Facebook</button>
-      <button class="connect-provider line" data-link-provider="custom:line" data-provider-label="LINE" type="button">LINE</button>
+    <div class="profile-hub-grid">
+      <section class="profile-character-panel">
+        <div class="profile-panel-title"><span>🎭</span><div><b>Karakter</b><small>Karakter personal milikmu</small></div></div>
+        <div class="profile-character-stage" id="profileCharacterStage">
+          <div class="profile-character-placeholder" id="profileCharacterPreview">👤</div>
+        </div>
+        <div class="profile-caishen-mini"><span><img class="coin-inline-icon" src="assets/coin-icon-user.png" alt=""> Saldo Coin</span><b id="profileCaishenBalance">0</b></div>
+        <div class="profile-character-actions">
+          <button id="profileTopupBtn" class="ghost-btn" type="button">Top Up</button>
+          <button id="profileRequestCharacterBtn" class="red-btn" type="button">Request Karakter</button>
+        </div>
+        <small class="character-paid-note">Request karakter custom menggunakan saldo Coin.</small>
+        <div id="profileCharacterRequestBox" class="profile-character-request-box hidden">
+          <b>Request sesuai foto</b>
+          <input id="profileCharacterReference" type="file" accept="image/png,image/jpeg,image/webp">
+          <textarea id="profileCharacterNotes" maxlength="1200" placeholder="Jelaskan karakter yang kamu inginkan..."></textarea>
+          <div class="profile-character-cost">Biaya: <b id="profileCharacterCost">100 Coin</b></div>
+          <button id="profileSubmitCharacterRequest" class="red-btn" type="button">Kirim Request</button>
+          <div id="profileCharacterStatus" class="auth-status" role="status"></div>
+        </div>
+      </section>
+      <section class="profile-data-panel">
+        <div class="profile-panel-title"><span>📋</span><div><b>Data Akun</b><small>Identitas dan metode login</small></div></div>
+        <div class="profile-data-summary">
+          <div><span>Username</span><b id="accountDataUsername">-</b></div>
+          <div><span>Email</span><b id="accountDataEmail">-</b></div>
+          <div><span>Friend ID</span><b id="accountDataFriendCode">-</b></div>
+          <div><span>Role</span><b id="accountDataRole">Player</b></div>
+        </div>
+        <h4>Hubungkan Akun</h4>
+        <p class="account-connect-note">Hubungkan akun lain agar punya lebih dari satu cara untuk masuk.</p>
+        <div id="linkedIdentityList" class="linked-identity-list"></div>
+        <div class="connect-provider-grid">
+          <button class="connect-provider instagram" data-link-provider="custom:instagram" data-provider-label="Instagram" type="button">◎ Instagram</button>
+          <button class="connect-provider facebook" data-link-provider="facebook" data-provider-label="Facebook" type="button">f Facebook</button>
+          <button class="connect-provider line" data-link-provider="custom:line" data-provider-label="LINE" type="button">LINE</button>
+        </div>
+        <div class="account-email-link">
+          <label>Hubungkan / ubah Email</label>
+          <div class="friend-search-row">
+            <input id="linkEmailInput" type="email" placeholder="email@contoh.com">
+            <button id="linkEmailBtn" class="red-btn" type="button">Simpan Email</button>
+          </div>
+          <small>Supabase akan meminta verifikasi email bila diperlukan.</small>
+        </div>
+        <div class="account-email-link account-phone-link">
+          <label>Hubungkan WhatsApp / Nomor Telepon</label>
+          <div class="friend-search-row">
+            <input id="linkPhoneInput" type="tel" inputmode="tel" placeholder="+62xxxxxxxxxxx">
+            <button id="linkPhoneBtn" class="red-btn" type="button">Kirim OTP</button>
+          </div>
+          <div class="friend-search-row phone-link-otp hidden" id="linkPhoneOtpStep">
+            <input id="linkPhoneOtp" type="text" inputmode="numeric" maxlength="6" placeholder="6 digit OTP">
+            <button id="verifyLinkPhoneBtn" class="red-btn" type="button">Verifikasi</button>
+          </div>
+          <small>Nomor akan menjadi identitas tambahan setelah OTP berhasil diverifikasi.</small>
+        </div>
+        <div class="manual-linking-note">
+          <b>Manual linking</b>
+          <span>Instagram, Facebook, LINE, Email, dan nomor telepon dapat dihubungkan bila provider terkait serta Manual Linking telah diaktifkan di Supabase Auth.</span>
+        </div>
+        <div id="accountConnectStatus" class="auth-status" role="status"></div>
+        <div class="auth-actions">
+          <button id="accountLogoutBtn" class="ghost-btn" type="button">Logout</button>
+        </div>
+      </section>
     </div>
-    <div class="account-email-link">
-      <label>Hubungkan / ubah Email</label>
-      <div class="friend-search-row">
-        <input id="linkEmailInput" type="email" placeholder="email@contoh.com">
-        <button id="linkEmailBtn" class="red-btn" type="button">Simpan Email</button>
+  </div>
+</div>
+
+<div class="auth-modal starter-character-modal" id="starterCharacterModal" aria-hidden="true">
+  <div class="auth-card starter-character-card">
+    <div class="starter-picker-head">
+      <div>
+        <h3>Pilih Karakter Awal</h3>
+        <p>Pilih karakter laki-laki atau perempuan. Keduanya memakai pakaian awal yang sederhana.</p>
       </div>
-      <small>Supabase akan meminta verifikasi email bila diperlukan.</small>
+      <button id="closeStarterCharacterModal" class="ghost-btn" type="button">Tutup</button>
     </div>
-    <div id="accountConnectStatus" class="auth-status" role="status"></div>
-    <div class="auth-actions">
-      <button id="accountLogoutBtn" class="ghost-btn" type="button">Logout</button>
+    <div class="starter-picker-grid">
+      <button class="starter-pick-option male-option" data-starter-gender="male" type="button">
+        <img class="starter-real-preview" src="assets/starter-male-user.png" alt="Karakter laki-laki">
+        <span><b>Laki-laki</b><small>Karakter awal</small></span>
+      </button>
+      <button class="starter-pick-option female-option" data-starter-gender="female" type="button">
+        <img class="starter-real-preview" src="assets/starter-female-user.png" alt="Karakter perempuan">
+        <span><b>Perempuan</b><small>Karakter awal</small></span>
+      </button>
     </div>
+    <div id="starterCharacterStatus" class="auth-status" role="status"></div>
   </div>
 </div>
-
-<button id="complaintFab" class="complaint-fab" type="button">💬 Complain</button>
+<div class="complaint-helper" id="complaintHelper" aria-label="Akses complain">
+      <button id="closeComplaintHelper" class="complaint-helper-close" type="button" aria-label="Tutup bantuan complain" title="Tutup">×</button>
+      <button id="complaintFab" class="complaint-image-fab" type="button" aria-label="Buka form complain">
+        <img src="assets/complain-helper.png" alt="Complain — buka formulir pengaduan">
+      </button>
+      <button id="reopenComplaintHelper" class="complaint-helper-reopen" type="button" aria-label="Tampilkan kembali Complain">💬 Complain</button>
+    </div>
 <div class="auth-modal complaint-modal" id="complaintModal" aria-hidden="true">
-  <div class="auth-card complaint-card">
-    <h3>Kirim Complain</h3>
-    <p>Pesan ini hanya dapat dibaca oleh akun Owner.</p>
-    <input id="complaintSubject" type="text" maxlength="120" placeholder="Judul complain">
-    <textarea id="complaintMessage" maxlength="2000" placeholder="Ceritakan masalah atau saranmu..."></textarea>
-    <div id="complaintStatus" class="auth-status" role="status"></div>
-    <div class="auth-actions">
-      <button class="ghost-btn" id="closeComplaint" type="button">Batal</button>
-      <button class="red-btn" id="sendComplaint" type="button">Kirim</button>
+  <div class="complaint-guanyu-shell">
+    <img src="assets/guanyu-complaint.png" alt="Guanyu" class="complaint-modal-guanyu">
+    <div class="complaint-panel-functional">
+      <div class="complaint-panel-head">
+        <h3>Complaint</h3>
+        <button id="closeComplaintX" type="button" aria-label="Tutup">×</button>
+      </div>
+      <div class="complaint-panel-body">
+        <div class="complaint-title-line"><span class="complaint-alert-icon">!</span><b>Complaint</b></div>
+        <textarea id="complaintMessage" maxlength="500" placeholder="Please describe your complaint here..."></textarea>
+        <div class="complaint-counter"><span id="complaintCharCount">0</span>/500</div>
+        <input id="complaintSubject" type="hidden" value="Complaint dari player">
+        <div id="complaintStatus" class="auth-status" role="status"></div>
+        <div class="complaint-actions">
+          <button class="complaint-submit" id="sendComplaint" type="button">Submit</button>
+          <button class="complaint-close" id="closeComplaint" type="button">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
-
 <div class="auth-modal log-detail-modal" id="activityPlayerModal" aria-hidden="true">
   <div class="auth-card log-detail-card">
     <div class="log-detail-head">
@@ -422,10 +1005,10 @@
     <div id="activityPlayerDetailList" class="activity-detail-list"></div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onload="window.dispatchEvent(new Event('buddhist-supabase-ready'))"></script>
 <script src="config.js"></script>
 <script src="js/app.js"></script>
+<script src="js/roblox-character.js"></script>
 </body>
 </html>

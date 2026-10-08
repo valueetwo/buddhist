@@ -1,0 +1,21 @@
+Dhamma Journey V7.3 — Living Character
+
+Berubah:
+- index.html: karakter starter menggunakan rig dua lapisan & SVG ekspresi.
+- css/style.css: animasi idle, blink, greet, meditate, speak, responsive/reduced motion.
+- js/app.js: pemasangan gender, ekspresi, pointer tracking, tap/keyboard & blink timer.
+- assets/starter-{male,female}-{head,body}.png: aset transparan baru.
+- preview-karakter.html + js/preview-karakter.js: preview mandiri.
+
+Coba:
+1. Buka preview-karakter.html. Pilih Laki-laki/Perempuan.
+2. Gerakkan kursor mengitari kepala; kepala menoleh lembut.
+3. Klik gambar/tekan Enter atau klik Sapa: karakter menyapa dan mengangguk.
+4. Klik Tenang: mata menutup dan napas lambat.
+5. Klik Bicara: mulut bergerak (demo). Di situs utama terjadi saat Lotus Companion merespons.
+6. Uji lewat ponsel/touch: ketuk karakter atau tombol.
+7. Buka index.html/login di deployment Anda, uji perubahan gender pada akun profil.
+
+Tidak mengubah database, auth, Coin, pasar, materi, video, atau game.
+
+Batasan: belum diujicoba secara visual menggunakan browser otomatis di lingkungan pengerjaan ini; jalankan preview pada Chrome/Firefox Anda.
